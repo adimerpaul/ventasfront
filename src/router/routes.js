@@ -2,6 +2,7 @@ import MainLayout from "../layouts/MainLayout";
 import Index from "../pages/Index";
 import Login from "../pages/Login";
 import Secure from "../pages/Secure";
+import Product from "../pages/Product";
 const routes = [
   {
     path: '/',
@@ -9,7 +10,8 @@ const routes = [
     children: [
       { path: '', component:Index },
       { path: '/login', component:Login },
-      { path: '/secure', component:Secure ,meta: {requiresAuth: true}}
+      { path: '/secure', component:Secure ,meta: {requiresAuth: true}},
+      { path: '/product', component:Product ,meta: {requiresAuth: true}}
     ]
   },
 

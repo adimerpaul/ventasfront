@@ -50,11 +50,11 @@
             </q-item-label>
           </q-item-section>
         </q-item>
+
         <q-item
           clickable
           to="/secure"
-          exact
-        >
+          exact>
           <q-item-section
             avatar
           >
@@ -68,6 +68,25 @@
             </q-item-label>
           </q-item-section>
         </q-item>
+
+                <q-item
+          clickable
+          to="/product"
+          exact>
+          <q-item-section
+            avatar
+          >
+            <q-icon name="send" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Productos</q-item-label>
+            <q-item-label caption>
+              Productos del sistema
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
         <q-item
           clickable
           v-if="$store.getters.isLoggedIn"
