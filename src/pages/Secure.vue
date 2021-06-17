@@ -21,30 +21,50 @@
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa datos']"
             />
 
+<!--            <q-input-->
+<!--              filled-->
+<!--              type="text"-->
+<!--              v-model="dato.color"-->
+<!--              label="Ingresar color"-->
+<!--              lazy-rules-->
+<!--              :rules="[-->
+<!--              val => val && val.length > 0 || 'Por favor ingresa datos',-->
+<!--              // val => val > 0 && val < 100 || 'Please type a real age'-->
+<!--              ]"-->
+<!--            />-->
             <q-input
               filled
-              type="text"
               v-model="dato.color"
-              label="Ingresar color"
-              lazy-rules
-              :rules="[
-              val => val && val.length > 0 || 'Por favor ingresa datos',
-              // val => val > 0 && val < 100 || 'Please type a real age'
-              ]"
-            />
-            <q-input
-              filled
-              type="text"
-              v-model="dato.imagen"
-              label="Ingresar imagen"
-              lazy-rules
-              :rules="[
-              val => val && val.length > 0 || 'Por favor ingresa datos',
-              // val => val > 0 && val < 100 || 'Please type a real age'
-              ]"
-            />
+              class="my-input"
+            >
+              <template v-slot:append>
+                <q-icon name="colorize" class="cursor-pointer">
+                  <q-popup-proxy transition-show="scale" transition-hide="scale">
+                    <q-color v-model="dato.color" />
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
 
-<!--            <q-toggle v-model="accept" label="I accept the license and terms" />-->
+<!--            <q-input-->
+<!--              filled-->
+<!--              type="text"-->
+<!--              v-model="dato.imagen"-->
+<!--              label="Ingresar imagen"-->
+<!--              lazy-rules-->
+<!--              :rules="[-->
+<!--              val => val && val.length > 0 || 'Por favor ingresa datos',-->
+<!--              // val => val > 0 && val < 100 || 'Please type a real age'-->
+<!--              ]"-->
+<!--            />-->
+            <q-uploader
+              style="max-width: 300px"
+              label="Main Image"
+              :factory="uploadFile"
+              max-files="1"
+              accept=".jpg, image/*"
+            />
+            <!--            <q-toggle v-model="accept" label="I accept the license and terms" />-->
 
             <div>
               <q-btn label="Crear" type="submit" color="positive" icon="add_circle"/>
@@ -64,7 +84,26 @@
       :data="data"
       :columns="columns"
       row-key="name"
-    />
+    >
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td key="nombre" :props="props">
+            {{ props.row.nombre }}
+          </q-td>
+          <q-td key="color" :props="props">
+            <q-badge :style="'background: '+props.row.color">
+              {{ props.row.color }}
+            </q-badge>
+          </q-td>
+          <q-td key="imagen" :props="props">
+<!--            <q-badge color="purple">-->
+              {{  props.row.imagen }}
+            <img :src="url+'/../imagenes/1623895203.jpg'" alt="" width="50">
+<!--            </q-badge>-->
+          </q-td>
+        </q-tr>
+      </template>
+    </q-table>
   </div>
 </template>
 
@@ -73,6 +112,8 @@ export default {
   data () {
     return {
       alert: false,
+      url: process.env.URL,
+      file_path : null,
       name: null,
       age: null,
       accept: false,
@@ -84,11 +125,11 @@ export default {
           label: 'Nombre',
           align: 'left',
           field: row => row.nombre,
-          // format: val => `${val}`,
+          format: val => `${val}`,
           sortable: true
         },
         { name: 'imagen', align: 'center', label: 'Color', field: 'color', sortable: true },
-        { name: 'color', label: 'Imagen', field: 'imagen', sortable: true },
+        { name: 'color', align: 'center', label: 'Imagen', field: 'imagen', sortable: true },
         // { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         // { name: 'protein', label: 'Protein (g)', field: 'protein' },
         // { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
@@ -101,13 +142,49 @@ export default {
         //   color: 'red',
         //   imagen:'1.png'
         // }
-      ]
+      ],
+      uploadPercentage: 0,
     }
   },
   created() {
     this.misdatos();
   },
   methods:{
+    uploadFile(files) {
+      this.file_path = files[0]
+      const fileData = new FormData()
+      fileData.append('imagen', this.file_path)
+      // console.log(fileData);
+      //Replace http://localhost:8000 with your API URL
+      const uploadFile = this.$axios.post('http://localhost:8000/api/upload', fileData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((response) => {
+        // console.log(response.data);
+        this.dato.imagen=response.data;
+        this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Imagen subido correctamente!'
+        });
+        // Notify plugin needs to be installed
+        // https://quasar.dev/quasar-plugins/notify#Installation
+        // this.$q.notify({
+        //   type: 'possitive',
+        //   message: `Image Uploaded`
+        // })
+      });
+    },
+    onRejected (rejectedEntries) {
+      // Notify plugin needs to be installed
+      // https://quasar.dev/quasar-plugins/notify#Installation
+      this.$q.notify({
+        type: 'negative',
+        message: `${rejectedEntries.length} file(s) did not pass validation constraints`
+      })
+    },
     misdatos(){
       this.$q.loading.show();
       this.$axios.get(process.env.URL+'/rubro').then(res=>{
@@ -134,13 +211,13 @@ export default {
       //     message: 'Submitted'
       //   })
       // }
-      let nombre=this.dato.nombre;
-      let imagen=this.dato.imagen;
-      let color=this.dato.color;
+      // let nombre=this.dato.nombre;
+      // let imagen=this.dato.imagen;
+      // let color=this.dato.color;
       // console.log({nombre,imagen,color})
       // return false;
       this.$axios.post(process.env.URL+'/rubro', this.dato).then(res=>{
-        console.log(res.data)
+        // console.log(res.data)
         this.$q.notify({
           color: 'green-4',
           textColor: 'white',
