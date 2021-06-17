@@ -97,11 +97,17 @@
           </q-td>
           <q-td key="imagen" :props="props">
 <!--            <q-badge color="purple">-->
-              {{  props.row.imagen }}
-            <img :src="url+'/../imagenes/1623895203.jpg'" alt="" width="50">
+
+            <img :src="url+'/../imagenes/'+props.row.imagen" alt="" width="50">
 <!--            </q-badge>-->
           </q-td>
         </q-tr>
+<!--        <template v-slot:body-cell-actions="props">-->
+<!--          <q-td :props="props">-->
+<!--            <q-btn dense round flat color="grey" @click="editRow(props)" icon="edit"></q-btn>-->
+<!--            <q-btn dense round flat color="grey" @click="deleteRow(props)" icon="delete"></q-btn>-->
+<!--          </q-td>-->
+<!--        </template>-->
       </template>
     </q-table>
   </div>
