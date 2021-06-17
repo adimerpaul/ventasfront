@@ -98,7 +98,7 @@
           </template>
 
     </q-table>
-        <q-dialog v-model="dialog_mod">
+    <q-dialog v-model="dialog_mod">
       <q-card>
         <q-card-section class="bg-green-14 text-white">
           <div class="text-h6">Modificar</div>
@@ -153,9 +153,9 @@
               // val => val > 0 && val < 100 || 'Please type a real age'
               ]"
             />
-            <q-file
+            <q-input
               filled
-              
+              type="text"
               v-model="dato2.imagen"
               label="Ingresar imagen"
               lazy-rules
@@ -181,6 +181,20 @@
       </q-card>
     </q-dialog>
 
+    <q-dialog v-model="dialog_del" >
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="clear" color="red" text-color="white" />
+          <span class="q-ml-sm">Seguro de eliminar Registro.</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Eliminar" color="deep-orange" @click="onDel"/>
+          <q-btn flat label="Cancelar" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
   </div>
   
 </template>
@@ -191,6 +205,7 @@ export default {
     return {
       alert: false,
       dialog_mod:false,
+      dialog_del:false,
       name: null,
       age: null,
       accept: false,
@@ -254,6 +269,13 @@ export default {
         this.dato2= producto.row;
         this.dialog_mod=true;  
     },
+    deleteRow(producto){
+        console.log(producto.row);
+        this.dato2= producto.row;
+        this.dialog_del=true;
+  
+    },
+    
     onSubmit () {
       this.$q.loading.show();
 
@@ -283,6 +305,20 @@ export default {
         this.dialog_mod=false;
         this.misdatos();})
     },
+    onDel(){
+        this.$q.loading.show();
+        this.$axios.delete(process.env.URL+'/product/'+this.dato2.id).then(res=>{
+         this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Eliminado correctamente'
+        });
+        this.dialog_del=false;
+        this.misdatos();})
+    },
+
+  
 
     onReset () {
       this.dato.nombre = null;
