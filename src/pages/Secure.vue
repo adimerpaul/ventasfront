@@ -62,7 +62,7 @@
               label="Main Image"
               :factory="uploadFile"
               max-files="1"
-              accept=".jpg, image/*"
+              accept=".jpg,.png, image/*"
             />
             <!--            <q-toggle v-model="accept" label="I accept the license and terms" />-->
 
@@ -84,7 +84,9 @@
       :data="data"
       :columns="columns"
       row-key="name"
-    >
+      >
+
+
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="nombre" :props="props">
@@ -101,6 +103,10 @@
             <img :src="url+'/../imagenes/'+props.row.imagen" alt="" width="50">
 <!--            </q-badge>-->
           </q-td>
+          <q-td key="opcion" :props="props">
+              <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
+              <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
+          </q-td>
         </q-tr>
 <!--        <template v-slot:body-cell-actions="props">-->
 <!--          <q-td :props="props">-->
@@ -108,8 +114,75 @@
 <!--            <q-btn dense round flat color="grey" @click="deleteRow(props)" icon="delete"></q-btn>-->
 <!--          </q-td>-->
 <!--        </template>-->
-      </template>
+          </template>
     </q-table>
+
+    <q-dialog v-model="dialog_mod">
+      <q-card>
+        <q-card-section class="bg-green-14 text-white">
+          <div class="text-h6">Modificar</div>
+        </q-card-section>
+        <q-card-section class="q-pt-xs">
+          <q-form
+            @submit="onMod"
+            class="q-gutter-md"
+          >
+            <q-input
+              filled
+              v-model="dato2.nombre"
+              type="text"
+              label="Nombre"
+              hint="Ingresar nombre"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Por favor ingresa datos']"
+            />
+
+            <q-input
+              filled
+              v-model="dato2.color"
+              class="my-input"
+            >
+              <template v-slot:append>
+                <q-icon name="colorize" class="cursor-pointer">
+                  <q-popup-proxy transition-show="scale" transition-hide="scale">
+                    <q-color v-model="dato2.color" />
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+
+<!--            <q-toggle v-model="accept" label="I accept the license and terms" />-->
+
+            <div>
+              <q-btn label="Modificar" type="submit" color="positive" icon="add_circle"/>
+<!--              <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />-->
+<!--              <q-card-actions align="right">-->
+                <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
+<!--              </q-card-actions>-->
+            </div>
+          </q-form>
+        </q-card-section>
+
+
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="dialog_del" >
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="clear" color="red" text-color="white" />
+          <span class="q-ml-sm">Seguro de eliminar Registro.</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Eliminar" color="deep-orange" @click="onDel"/>
+          <q-btn flat label="Cancelar" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+
+
   </div>
 </template>
 
@@ -124,6 +197,10 @@ export default {
       age: null,
       accept: false,
       dato:{},
+      dato2:{},
+      dialog_mod:false,
+      dialog_del:false,
+      props:[],
       columns: [
         {
           name: 'nombre',
@@ -136,6 +213,7 @@ export default {
         },
         { name: 'imagen', align: 'center', label: 'Color', field: 'color', sortable: true },
         { name: 'color', align: 'center', label: 'Imagen', field: 'imagen', sortable: true },
+        { name: 'opcion', label: 'Opcion', field:'action',  sortable: false },
         // { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         // { name: 'protein', label: 'Protein (g)', field: 'protein' },
         // { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
@@ -244,7 +322,41 @@ export default {
       // })
 
     },
-
+    editRow(producto){
+        console.log(producto.row);
+        this.dato2= producto.row;
+        this.dialog_mod=true;  
+    },
+    deleteRow(producto){
+        console.log(producto.row);
+        this.dato2= producto.row;
+        this.dialog_del=true;
+  
+    },
+    onMod(){
+        this.$q.loading.show();
+        this.$axios.put(process.env.URL+'/rubro/'+this.dato2.id,this.dato2).then(res=>{
+         this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Modificado correctamente'
+        });
+        this.dialog_mod=false;
+        this.misdatos();})
+    },
+    onDel(){
+        this.$q.loading.show();
+        this.$axios.delete(process.env.URL+'/rubro/'+this.dato2.id).then(res=>{
+         this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Eliminado correctamente'
+        });
+        this.dialog_del=false;
+        this.misdatos();})
+    },
     onReset () {
       this.name = null
       this.age = null

@@ -3,6 +3,7 @@ import Index from "../pages/Index";
 import Login from "../pages/Login";
 import Secure from "../pages/Secure";
 import Product from "../pages/Product";
+import Dosage from "../pages/Dosage";
 const routes = [
   {
     path: '/',
@@ -11,7 +12,8 @@ const routes = [
       { path: '', component:Index },
       { path: '/login', component:Login },
       { path: '/secure', component:Secure ,meta: {requiresAuth: true}},
-      { path: '/product', component:Product ,meta: {requiresAuth: true}}
+      { path: '/product', component:Product ,meta: {requiresAuth: true}},
+      { path: '/dosage', component:Dosage ,meta: {requiresAuth: true}}
     ]
   },
 

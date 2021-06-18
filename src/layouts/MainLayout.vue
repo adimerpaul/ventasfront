@@ -51,7 +51,27 @@
           </q-item-section>
         </q-item>
 
+
+
         <q-item
+          clickable
+          to="/dosage"
+          exact>
+          <q-item-section
+            avatar
+          >
+            <q-icon name="list" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Dosificacion</q-item-label>
+            <q-item-label caption>
+              Dosificacion Factura
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
+                <q-item
           clickable
           to="/secure"
           exact>
@@ -68,7 +88,7 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-
+        
                 <q-item
           clickable
           to="/product"
