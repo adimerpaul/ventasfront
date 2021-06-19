@@ -92,16 +92,27 @@
           <q-td key="nombre" :props="props">
             {{ props.row.nombre }}
           </q-td>
-          <q-td key="color" :props="props">
-            <q-badge :style="'background: '+props.row.color">
-              {{ props.row.color }}
-            </q-badge>
-          </q-td>
+<!--          <q-td key="color" :props="props">-->
+<!--            <q-badge :style="'background: '+props.row.color">-->
+<!--              {{ props.row.color }}-->
+<!--            </q-badge>-->
+<!--          </q-td>-->
           <q-td key="imagen" :props="props">
 <!--            <q-badge color="purple">-->
+          <div :style="'background: '+props.row.color">
+            <img :src="url+'/../imagenes/'+props.row.imagen"  width="50">
+          </div>
 
-            <img :src="url+'/../imagenes/'+props.row.imagen" alt="" width="50">
 <!--            </q-badge>-->
+          </q-td>
+          <q-td key="products" :props="props">
+<!--            <ul>-->
+<!--              <li v-for="item in props.row.products" :key="item.id">{{item.nombre}}</li>-->
+<!--            </ul>-->
+            <div v-for="item in props.row.products" :key="item.id">
+              <q-btn  :label="item.nombre" size="xs" color="teal" />
+            </div>
+
           </q-td>
           <q-td key="opcion" :props="props">
               <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
@@ -119,8 +130,8 @@
 
     <q-dialog v-model="dialog_mod">
       <q-card>
-        <q-card-section class="bg-green-14 text-white">
-          <div class="text-h6">Modificar</div>
+        <q-card-section class="bg-amber-14 text-white">
+          <div class="text-h6"><q-icon name="edit"/>Modificar</div>
         </q-card-section>
         <q-card-section class="q-pt-xs">
           <q-form
@@ -154,7 +165,7 @@
 <!--            <q-toggle v-model="accept" label="I accept the license and terms" />-->
 
             <div>
-              <q-btn label="Modificar" type="submit" color="positive" icon="add_circle"/>
+              <q-btn label="Modificar" type="submit" color="warning" icon="edit"/>
 <!--              <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />-->
 <!--              <q-card-actions align="right">-->
                 <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
@@ -212,8 +223,10 @@ export default {
           sortable: true
         },
         { name: 'imagen', align: 'center', label: 'Color', field: 'color', sortable: true },
-        { name: 'color', align: 'center', label: 'Imagen', field: 'imagen', sortable: true },
+        // { name: 'color', align: 'center', label: 'Imagen', field: 'imagen', sortable: true },
+        { name: 'products', label: 'Productos', field:'action',  sortable: false,},
         { name: 'opcion', label: 'Opcion', field:'action',  sortable: false },
+
         // { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         // { name: 'protein', label: 'Protein (g)', field: 'protein' },
         // { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
@@ -323,15 +336,15 @@ export default {
 
     },
     editRow(producto){
-        console.log(producto.row);
+        // console.log(producto.row);
         this.dato2= producto.row;
-        this.dialog_mod=true;  
+        this.dialog_mod=true;
     },
     deleteRow(producto){
-        console.log(producto.row);
+        // console.log(producto.row);
         this.dato2= producto.row;
         this.dialog_del=true;
-  
+
     },
     onMod(){
         this.$q.loading.show();
@@ -343,7 +356,17 @@ export default {
           message: 'Modificado correctamente'
         });
         this.dialog_mod=false;
-        this.misdatos();})
+        this.misdatos();
+        }).catch(err=>{
+          this.$q.notify({
+            color: 'red-4',
+            textColor: 'white',
+            icon: 'logout',
+            message: 'Modificado correctamente'
+          });
+          this.dialog_mod=false;
+          this.$q.loading.hide();
+        })
     },
     onDel(){
         this.$q.loading.show();
@@ -355,7 +378,17 @@ export default {
           message: 'Eliminado correctamente'
         });
         this.dialog_del=false;
-        this.misdatos();})
+        this.misdatos();
+        }).catch(err=>{
+        this.$q.notify({
+          color: 'red-4',
+          textColor: 'white',
+          icon: 'logout',
+          message: err.message
+        });
+          this.dialog_del=false;
+          this.$q.loading.hide();
+      })
     },
     onReset () {
       this.name = null

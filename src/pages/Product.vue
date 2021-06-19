@@ -39,10 +39,10 @@
               lazy-rules
               :rules="[ val => val>0 && val < 500 || 'Por favor Valor']"
             />
-            <q-select 
+            <q-select
               v-model="dato.rubro_id"
               label="Rubro"
-              :options="options"               
+              :options="options"
               emit-value
             />
 
@@ -94,7 +94,7 @@
             <q-td :props="props">
               <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
               <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
-            </q-td>          
+            </q-td>
           </template>
 
     </q-table>
@@ -135,24 +135,25 @@
               lazy-rules
               :rules="[ val => val>0 && val < 500 || 'Por favor Valor']"
             />
-            <q-select 
+            <q-select
               v-model="dato2.rubro_id"
               label="Rubro"
-              :options="options"               
+              :options="options"
               emit-value
             />
 
-            <q-input
-              filled
-              type="text"
-              v-model="dato2.color"
-              label="Ingresar color"
-              lazy-rules
-              :rules="[
-              val => val && val.length > 0 || 'Por favor ingresa datos',
-              // val => val > 0 && val < 100 || 'Please type a real age'
-              ]"
-            />
+<!--            <q-input-->
+<!--              filled-->
+<!--              type="text"-->
+<!--              v-model="dato2.color"-->
+<!--              label="Ingresar color"-->
+<!--              lazy-rules-->
+<!--              :rules="[-->
+<!--              val => val && val.length > 0 || 'Por favor ingresa datos',-->
+<!--              // val => val > 0 && val < 100 || 'Please type a real age'-->
+<!--              ]"-->
+<!--            />-->
+
             <q-input
               filled
               type="text"
@@ -196,7 +197,7 @@
     </q-dialog>
 
   </div>
-  
+
 </template>
 
 <script>
@@ -267,20 +268,20 @@ export default {
     editRow(producto){
         console.log(producto.row);
         this.dato2= producto.row;
-        this.dialog_mod=true;  
+        this.dialog_mod=true;
     },
     deleteRow(producto){
         console.log(producto.row);
         this.dato2= producto.row;
         this.dialog_del=true;
-  
+
     },
-    
+
     onSubmit () {
       this.$q.loading.show();
 
       this.$axios.post(process.env.URL+'/product', this.dato).then(res=>{
-        console.log(res.data)
+        console.log(res.data);
         this.$q.notify({
           color: 'green-4',
           textColor: 'white',
@@ -318,7 +319,7 @@ export default {
         this.misdatos();})
     },
 
-  
+
 
     onReset () {
       this.dato.nombre = null;

@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Sistemas de ventas
+          Ventas
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -78,7 +78,7 @@
           <q-item-section
             avatar
           >
-            <q-icon name="send" />
+            <q-icon name="precision_manufacturing" />
           </q-item-section>
 
           <q-item-section>
@@ -88,7 +88,7 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-        
+
                 <q-item
           clickable
           to="/product"
@@ -96,7 +96,7 @@
           <q-item-section
             avatar
           >
-            <q-icon name="send" />
+            <q-icon name="inventory_2" />
           </q-item-section>
 
           <q-item-section>
