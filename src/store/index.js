@@ -18,16 +18,20 @@ export default new Vuex.Store({
   state: {
     status: '',
     token: localStorage.getItem('token') || '',
-    user : {}
+    user : {},
+    menudosificacion:false,
   },
   mutations: {
     auth_request(state){
       state.status = 'loading'
     },
-    auth_success(state, token, user){
+    auth_success(state, dat){
+      // console.log(dat.user);
+      // console.log(dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 2));
       state.status = 'success'
-      state.token = token
-      state.user = user
+      state.token = dat.token
+      state.user = dat.user
+      state.menudosificacion=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 1)!=undefined;
     },
     auth_error(state){
       state.status = 'error'
@@ -35,6 +39,7 @@ export default new Vuex.Store({
     logout(state){
       state.status = ''
       state.token = ''
+      state.user = {}
     },
   },
   actions: {
@@ -49,10 +54,12 @@ export default new Vuex.Store({
         axios({url, data: user, method: 'POST' })
           .then(resp => {
             const token = resp.data.token
-            const user = resp.data.user
+            const user = resp.data.user[0]
+            // console.log(user)
             localStorage.setItem('token', token)
             axios.defaults.headers.common['Authorization'] = 'Bearer '+token
-            commit('auth_success', token, user)
+            // console.log(user.name);
+            commit('auth_success', {token,user})
             resolve(resp)
           })
           .catch(err => {
@@ -66,7 +73,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         commit('logout')
         localStorage.removeItem('token')
-        delete axios.defaults.headers.common['Authorization']
+        delete axios.defaults.headers.common['Authorization'];
         resolve()
       })
     }

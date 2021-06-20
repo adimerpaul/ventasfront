@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Ventas
+          {{$store.state.menudosificacion}}
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -50,19 +50,38 @@
             </q-item-label>
           </q-item-section>
         </q-item>
+        <q-item
+          clickable
+          to="/login"
+          exact
 
+          v-if="!$store.getters.isLoggedIn"
 
+        >
+          <q-item-section
+            avatar
+          >
+            <q-icon name="login" />
+          </q-item-section>
 
+          <q-item-section>
+            <q-item-label>Login</q-item-label>
+            <q-item-label caption>
+              Ingreso al sistema
+            </q-item-label>
+          </q-item-section>
+        </q-item>
         <q-item
           clickable
           to="/dosage"
-          exact>
+          exact
+          v-if="$store.state.menudosificacion"
+        >
           <q-item-section
             avatar
           >
             <q-icon name="list" />
           </q-item-section>
-
           <q-item-section>
             <q-item-label>Dosificacion</q-item-label>
             <q-item-label caption>
@@ -115,7 +134,7 @@
           <q-item-section
             avatar
           >
-            <q-icon name="close" />
+            <q-icon name="logout" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Salir</q-item-label>
@@ -143,6 +162,10 @@ export default {
     return {
       leftDrawerOpen: false,
     }
+  },
+  created() {
+    // let permisos=this.$store.state.user;
+    // console.log(permisos)
   },
   methods:{
     logout: function () {
