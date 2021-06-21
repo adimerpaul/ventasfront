@@ -6,6 +6,7 @@ import Product from "../pages/Product";
 import Dosage from "../pages/Dosage";
 import Client from "../pages/Client";
 import User from "../pages/User";
+import Venta from "pages/Venta";
 const routes = [
   {
     path: '/',
@@ -17,7 +18,8 @@ const routes = [
       { path: '/product', component:Product ,meta: {requiresAuth: true}},
       { path: '/dosage', component:Dosage ,meta: {requiresAuth: true}},
       { path: '/client', component:Client ,meta: {requiresAuth: true}},
-      { path: '/user', component:User ,meta: {requiresAuth: true}}
+      { path: '/user', component:User ,meta: {requiresAuth: true}},
+      { path: '/venta', component:Venta ,meta: {requiresAuth: true}},
     ]
   },
 

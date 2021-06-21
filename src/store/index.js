@@ -19,6 +19,8 @@ export default new Vuex.Store({
     status: '',
     token: localStorage.getItem('token') || '',
     user : {},
+    // sale : {},
+    products:[],
     menudosificacion:false,
   },
   mutations: {

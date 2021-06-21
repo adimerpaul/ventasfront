@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          {{$store.state.menudosificacion}}
+          {{$store.state.user.name}}
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -108,7 +108,7 @@
           </q-item-section>
         </q-item>
 
-                <q-item
+        <q-item
           clickable
           to="/product"
           exact>
@@ -122,6 +122,40 @@
             <q-item-label>Productos</q-item-label>
             <q-item-label caption>
               Productos del sistema
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          to="/dosage"
+          exact>
+          <q-item-section
+            avatar
+          >
+            <q-icon name="engineering" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Dosificaciones</q-item-label>
+            <q-item-label caption>
+              Dosificaciones para la venta
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          to="/venta"
+          exact>
+          <q-item-section
+            avatar
+          >
+            <q-icon name="store" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Venta</q-item-label>
+            <q-item-label caption>
+              Venta de productos
             </q-item-label>
           </q-item-section>
         </q-item>
