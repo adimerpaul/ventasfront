@@ -128,6 +128,42 @@
 
         <q-item
           clickable
+          to="/client"
+          exact>
+          <q-item-section
+            avatar
+          >
+            <q-icon name="groups" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Clientes</q-item-label>
+            <q-item-label caption>
+              Clientes del sistema
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item
+          clickable
+          to="/user"
+          exact>
+          <q-item-section
+            avatar
+          >
+            <q-icon name="badge" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Usuarios</q-item-label>
+            <q-item-label caption>
+              Usuarios del sistema
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item
+          clickable
           v-if="$store.getters.isLoggedIn"
           @click="logout"
         >

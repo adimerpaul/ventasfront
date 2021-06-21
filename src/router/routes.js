@@ -4,6 +4,8 @@ import Login from "../pages/Login";
 import Secure from "../pages/Secure";
 import Product from "../pages/Product";
 import Dosage from "../pages/Dosage";
+import Client from "../pages/Client";
+import User from "../pages/User";
 const routes = [
   {
     path: '/',
@@ -13,7 +15,9 @@ const routes = [
       { path: '/login', component:Login },
       { path: '/secure', component:Secure ,meta: {requiresAuth: true}},
       { path: '/product', component:Product ,meta: {requiresAuth: true}},
-      { path: '/dosage', component:Dosage ,meta: {requiresAuth: true}}
+      { path: '/dosage', component:Dosage ,meta: {requiresAuth: true}},
+      { path: '/client', component:Client ,meta: {requiresAuth: true}},
+      { path: '/user', component:User ,meta: {requiresAuth: true}}
     ]
   },
 
