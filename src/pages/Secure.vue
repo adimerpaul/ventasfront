@@ -119,13 +119,7 @@
               <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
           </q-td>
         </q-tr>
-<!--        <template v-slot:body-cell-actions="props">-->
-<!--          <q-td :props="props">-->
-<!--            <q-btn dense round flat color="grey" @click="editRow(props)" icon="edit"></q-btn>-->
-<!--            <q-btn dense round flat color="grey" @click="deleteRow(props)" icon="delete"></q-btn>-->
-<!--          </q-td>-->
-<!--        </template>-->
-          </template>
+      </template>
     </q-table>
 
     <q-dialog v-model="dialog_mod">

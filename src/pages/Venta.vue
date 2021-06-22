@@ -39,7 +39,7 @@
             <q-card-section class="q-pa-xs">
               <div class="row">
                 <div v-for="product in products" :key="product.nombre" class="col-4 col-md-3">
-                  <q-card @click="miventa(product)" class="q-pa-xs">
+                  <q-card @click="miventa(product)" class="q-pa-xs" v-if="product.cantidad>0">
                     <q-img
                       :style="'background: '+product.color"
                       :src="url+'/../imagenes/'+product.imagen"
@@ -180,7 +180,7 @@
 </template>
 
 <script>
-import { LoadingBar } from 'quasar'
+// import { LoadingBar } from 'quasar'
 
 
 export default {
@@ -202,10 +202,8 @@ export default {
     }
   },
   created() {
-    this.$axios.get(process.env.URL+'/rubro').then(res=>{
-      // console.log(res.data);
-      this.rubros=res.data;
-    })
+    this.misrubros();
+
     this.$axios.get(process.env.URL+'/deliveri').then(res=>{
       // this.options=res.data;
       res.data.forEach(r=>{
@@ -215,12 +213,20 @@ export default {
 
   },
   methods:{
+    misrubros() {
+      this.rubros=[];
+      this.$axios.get(process.env.URL+'/rubro').then(res=>{
+        // console.log(res.data);
+        this.rubros=res.data;
+      })
+    },
     onkeyup(){
-      LoadingBar.start();
+      // console.log('a');
+      // LoadingBar.start();
       this.nombrerazon='';
       if (this.ci!='' && this.ci!=null)
       this.$axios(process.env.URL+'/client/'+this.ci).then(res=>{
-        LoadingBar.stop()
+        // LoadingBar.stop()
         if(res.data.length>0){
           // console.log(res.data[0])
           this.nombrerazon=res.data[0].nombrerazon;
@@ -278,14 +284,35 @@ export default {
     },
     onsubmit(){
       // console.log('a');
+      if (this.ci=='' || this.ci==null){
+        this.$q.notify({
+          color: 'red-5',
+          textColor: 'white',
+          icon: 'warning',
+          message: 'Tienes que colocar un cliente'
+        })
+        return false;
+      }
+      if (this.total=='' || this.total==null|| parseFloat(this.total)==0){
+        this.$q.notify({
+          color: 'red-5',
+          textColor: 'white',
+          icon: 'warning',
+          message: 'Tienes que Tener productos para realizar la venta'
+        })
+        return false;
+      }
       this.$axios.post(process.env.URL+'/sale',{
-        monto:this.total,
+        total:this.total,
+        monto:this.recibido,
         cinit:this.ci,
         nombrerazon:this.nombrerazon,
         delivery:this.delivery,
         details:this.$store.state.products,
       }).then(res=>{
         console.log(res.data);
+        this.misrubros();
+        this.products=[];
         if (this.ci!='' && this.ci!=null){
           let te=res.data;
           let myWindow = window.open("", "myWindow", "width=200,height=100");
@@ -300,6 +327,14 @@ export default {
           },200);
         }
 
+      }).catch(err=>{
+        //   this.alert=false;
+            this.$q.notify({
+              color: 'red-5',
+              textColor: 'white',
+              icon: 'warning',
+              message: 'No existe dosificacion Preguntar Administrador'
+            })
       });
     }
   },

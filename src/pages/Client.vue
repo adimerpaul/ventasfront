@@ -2,9 +2,9 @@
   <div class="q-pa-md">
       <div class="row">
           <form action=""
-            @submit="buscar"
+            @submit.enter.prevent="buscar"
           >
-              <q-input 
+              <q-input
               type="text"
               label="CI / NIT"
               v-model="bclient"
@@ -102,7 +102,7 @@
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa datos']"
             />
-            
+
             <div>
               <q-btn label="Modificar" type="submit" color="positive" icon="add_circle"/>
 <!--              <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />-->
@@ -185,7 +185,7 @@ export default {
       this.$axios.post(process.env.URL+'/listclient/'+this.bclient).then(res=>{
         // console.log(res.data)
         this.data=res.data;
-      }) 
+      })
         this.$q.loading.hide();
 
     },
@@ -217,10 +217,10 @@ export default {
           message: 'Creado correctamente'
         });
         this.alert=false;
-        
-        this.onReset(); 
+
+        this.onReset();
       }).catch(err=>{
-          
+
           this.$q.notify({
             color: 'red-4',
             textColor: 'white',
@@ -243,7 +243,7 @@ export default {
         });
         this.dialog_mod=false;
        }).catch(err=>{
-          
+
           this.$q.notify({
             color: 'red-4',
             textColor: 'white',

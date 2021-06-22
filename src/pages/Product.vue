@@ -90,12 +90,45 @@
       :columns="columns"
       row-key="name"
     >
-    <template v-slot:body-cell-opcion="props">
-            <q-td :props="props">
-              <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
-              <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
-            </q-td>
-          </template>
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td key="nombre" :props="props">
+            {{ props.row.nombre }}
+          </q-td>
+          <!--          <q-td key="color" :props="props">-->
+          <!--            <q-badge :style="'background: '+props.row.color">-->
+          <!--              {{ props.row.color }}-->
+          <!--            </q-badge>-->
+          <!--          </q-td>-->
+          <q-td key="imagen" :props="props">
+            <!--            <q-badge color="purple">-->
+            <div :style="'background: '+props.row.color">
+              <img :src="url+'/../imagenes/'+props.row.imagen"  width="50">
+            </div>
+
+            <!--            </q-badge>-->
+          </q-td>
+          <q-td key="cantidad" :props="props">
+            {{ props.row.cantidad }}
+          </q-td>
+          <q-td key="precio" :props="props">
+            {{ props.row.precio }}
+          </q-td>
+          <q-td key="rubro" :props="props">
+            <div class="text-h6">{{ props.row.rubro.nombre }}</div>
+          </q-td>
+          <q-td key="opcion" :props="props">
+            <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
+            <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
+          </q-td>
+        </q-tr>
+      </template>
+<!--    <template v-slot:body-cell-opcion="props">-->
+<!--            <q-td :props="props">-->
+<!--              <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>-->
+<!--              <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>-->
+<!--            </q-td>-->
+<!--    </template>-->
 
     </q-table>
     <q-dialog v-model="dialog_mod">
@@ -132,6 +165,15 @@
               label="Precio"
               type="number"
               hint="Ingresar precio"
+              lazy-rules
+              :rules="[ val => val>0 && val < 500 || 'Por favor Valor']"
+            />
+            <q-input
+              filled
+              v-model="dato2.cantidad"
+              label="Cantidad"
+              type="number"
+              hint="Cantidad de platos"
               lazy-rules
               :rules="[ val => val>0 && val < 500 || 'Por favor Valor']"
             />
@@ -204,6 +246,7 @@
 export default {
   data () {
     return {
+      url:process.env.URL,
       alert: false,
       dialog_mod:false,
       dialog_del:false,
@@ -224,11 +267,15 @@ export default {
           // format: val => `${val}`,
           sortable: true
         },
-        { name: 'precio', align: 'center', label: 'Precio', field: 'precio', sortable: true },
+        // { name: 'color', label: 'Imagen', field: 'imagen', sortable: true },
+        // { name: 'precio', align: 'center', label: 'Precio', field: 'precio', sortable: true },
         //{ name: 'rubro.nombre', align: 'center', label: 'Rubro', field: 'rubro.nombre}', sortable: true },
-        { name: 'imagen', align: 'center', label: 'Color', field: 'color', sortable: true },
-        { name: 'color', label: 'Imagen', field: 'imagen', sortable: true },
+        { name: 'imagen', align: 'center', label: 'Imagen', field: 'color', sortable: true },
+        { name: 'cantidad', align: 'right', label: 'Stock', field: 'cantidad', sortable: true },
+        { name: 'precio', align: 'right', label: 'Precio', field: 'precio', sortable: true },
+        { name: 'rubro', align: 'center', label: 'Rubro', field: 'rubro', sortable: true },
         { name: 'opcion', label: 'Opcion', field:'action',  sortable: false },
+
         // { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         // { name: 'protein', label: 'Protein (g)', field: 'protein' },
         // { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
@@ -266,12 +313,12 @@ export default {
         })
     },
     editRow(producto){
-        console.log(producto.row);
+        // console.log(producto.row);
         this.dato2= producto.row;
         this.dialog_mod=true;
     },
     deleteRow(producto){
-        console.log(producto.row);
+        // console.log(producto.row);
         this.dato2= producto.row;
         this.dialog_del=true;
 
