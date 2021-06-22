@@ -21,6 +21,7 @@
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa datos']"
             />
+
             <q-input
               filled
               v-model="dato.email"
@@ -30,6 +31,7 @@
               lazy-rules
               :rules="[ val => valemail(val)  || 'Por favor ingresa email']"
             />
+
             <q-input
               filled
               v-model="dato.password"
@@ -80,12 +82,14 @@
     >
     <template v-slot:body-cell-opcion="props">
             <q-td :props="props">
+              <q-btn dense round flat color="red" @click="editPass(props)" icon="vpn_key"></q-btn>
               <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
               <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
             </q-td>
           </template>
 
     </q-table>
+
     <q-dialog v-model="dialog_mod">
       <q-card>
         <q-card-section class="bg-green-14 text-white">
@@ -112,9 +116,17 @@
               label="Email"
               hint="Ingresar email"
               lazy-rules
-              :rules="[ val => val && val.length > 0 || 'Por favor ingresa datos']"
+              :rules="[ val =>  valemail(val) || 'Por favor ingresa datos']"
             />
-            
+                        <h5>Permisos</h5>
+            <div>
+                    <q-option-group
+                    :options="options"
+                    type="checkbox"
+                    v-model="dato2.group"
+                    ></q-option-group>
+            </div>
+
             <div>
               <q-btn label="Modificar" type="submit" color="positive" icon="add_circle"/>
 <!--              <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />-->
@@ -125,8 +137,8 @@
           </q-form>
         </q-card-section>
 
-
       </q-card>
+
     </q-dialog>
 
     <q-dialog v-model="dialog_del" >
@@ -143,6 +155,47 @@
       </q-card>
     </q-dialog>
 
+    <q-dialog v-model="dialog_pass">
+      <q-card>
+        <q-card-section class="bg-primary text-white">
+          <div class="text-h6">Modificar Password</div>
+        </q-card-section>
+        <q-card-section class="q-pt-xs">
+          <q-form
+            @submit="onPass"
+            class="q-gutter-md"
+          >
+            <q-input
+              filled
+              v-model="dato4.password"
+              label="Password"
+              type="password"
+              hint="Ingresar password"
+              lazy-rules
+              :rules="[ val => val.length > 8 || 'Ingrese password']"
+            />
+            
+            <q-input
+              filled
+              v-model="verifica"
+              label="Verificacion password"
+              type="password"
+              hint="Ingresar password"
+              lazy-rules
+              :rules="[ val => val==dato4.password || 'No es igual']"
+            />
+            
+            <div>
+              <q-btn label="Modificar" type="submit" color="positive" icon="add_circle"/>
+<!--              <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />-->
+<!--              <q-card-actions align="right">-->
+                <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
+<!--              </q-card-actions>-->
+            </div>
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 
 </template>
@@ -155,16 +208,18 @@ export default {
       alert: false,
       dialog_mod:false,
       dialog_del:false,
+      dialog_pass:false,
       name: null,
       age: null,
       accept: false,
       dato:{group:[]},
       permiso:{},
-      dato2:{},
+      dato2:{group:[]},
+      dato3:{},
+      dato4:{},
       verifica:'',
       options:[],
       props:[],
-      group:[],
       columns: [
         {
           name: 'nombre',
@@ -209,14 +264,27 @@ export default {
     valemail(em){
         return emailPattern.test(em);
     },
-    editRow(producto){
-        console.log(producto.row);
-        this.dato2= producto.row;
+    editRow(user){
+        console.log(user.row);
+        this.dato2= user.row;
+        this.dato2.group=[];
+        user.row.usuariopermisos.forEach(cl => {
+            this.dato2.group.push(cl.permiso_id);    
+        });
+        console.log(this.dato2);
+
         this.dialog_mod=true;
     },
-    deleteRow(producto){
-        console.log(producto.row);
-        this.dato2= producto.row;
+    editPass(user){
+        console.log(user.row);
+        
+        this.dato4= user.row;
+
+        this.dialog_pass=true;
+    },
+    deleteRow(user){
+        console.log(user.row);
+        this.dato3= user.row;
         this.dialog_del=true;
 
     },
@@ -235,12 +303,26 @@ export default {
         this.alert=false;
         this.misdatos();
       })
-
-
     },
+
+    onPass () {
+      this.$q.loading.show();
+      this.$axios.post(process.env.URL+'/modpass', this.dato4).then(res=>{
+        console.log(res.data);
+        this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Modificado correctamente'
+        });
+        this.dialog_pass=false;
+        this.misdatos();
+      })
+    },
+
     onMod(){
         this.$q.loading.show();
-        this.$axios.put(process.env.URL+'/user/'+this.dato2.id,this.dato2).then(res=>{
+        this.$axios.post(process.env.URL+'/modificar',this.dato2).then(res=>{
          this.$q.notify({
           color: 'green-4',
           textColor: 'white',
@@ -252,7 +334,7 @@ export default {
     },
     onDel(){
         this.$q.loading.show();
-        this.$axios.delete(process.env.URL+'/product/'+this.dato2.id).then(res=>{
+        this.$axios.post(process.env.URL+'/eliminar/'+this.dato3.id).then(res=>{
          this.$q.notify({
           color: 'green-4',
           textColor: 'white',

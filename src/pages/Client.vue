@@ -34,7 +34,7 @@
               label="CI / NIT"
               hint="Ingresar el ci o nit"
               lazy-rules
-              :rules="[ val => val && val.length > 0 || 'Por favor ingresa datos']"
+              :rules="[ val => validarcinit(val) && val.length > 0 || 'Por favor ingresa datos']"
             />
             <q-input
               filled
@@ -91,7 +91,7 @@
               label="CI / NIT"
               hint="Ingresar ci o nit"
               lazy-rules
-              :rules="[ val => val && val.length > 0 || 'Por favor ingresa datos']"
+              :rules="[ val => validarcinit(val) && val.length > 0 || 'Por favor ingresa datos']"
             />
             <q-input
               filled
@@ -136,6 +136,7 @@
 </template>
 
 <script>
+const cinitvalido=/^[0-9]+-??[0-9A-Za-z]{2}$/;
 export default {
   data () {
     return {
@@ -188,7 +189,10 @@ export default {
         this.$q.loading.hide();
 
     },
+    validarcinit(cinit){
+        return cinitvalido.test(cinit);
 
+    },
     editRow(client){
         console.log(client.row);
         this.dato2= client.row;
