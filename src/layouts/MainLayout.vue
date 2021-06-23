@@ -160,6 +160,25 @@
           </q-item-section>
         </q-item>
 
+
+        <q-item
+          clickable
+          to="/listado"
+          exact>
+          <q-item-section
+            avatar
+          >
+            <q-icon name="list_alt" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Listado</q-item-label>
+            <q-item-label caption>
+              Listado de Ventas
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
         <q-item
           clickable
           to="/client"

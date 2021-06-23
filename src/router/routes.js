@@ -7,6 +7,7 @@ import Dosage from "../pages/Dosage";
 import Client from "../pages/Client";
 import User from "../pages/User";
 import Venta from "pages/Venta";
+import Listado from "pages/Listado";
 const routes = [
   {
     path: '/',
@@ -20,6 +21,7 @@ const routes = [
       { path: '/client', component:Client ,meta: {requiresAuth: true}},
       { path: '/user', component:User ,meta: {requiresAuth: true}},
       { path: '/venta', component:Venta ,meta: {requiresAuth: true}},
+      { path: '/listado', component:Listado ,meta: {requiresAuth: true}},
     ]
   },
 
