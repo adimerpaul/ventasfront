@@ -3,6 +3,8 @@
       <q-form
        @submit.Enter.prevent="buscar"
       >
+      <div class="row">
+          <div style="width:40%">
       <q-input
       type='date'
       v-model="dato1.fecha"
@@ -10,17 +12,18 @@
        lazy-rules
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa la fecha']"
       />
-
+      </div>
+              <div style="width:40%">
     <q-select
-      type='date'
       v-model="sel"
       label="Usuario"
       :options="luser"
       lazy-rules
               :rules="[ val => val && val!='' || 'Seleccionar Usuario']"
       />
-
+      </div>
         <q-btn type="submit" label="Buscar" color="primary"/>
+</div>
       </q-form>
 
     <q-table
