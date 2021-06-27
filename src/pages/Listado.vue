@@ -35,7 +35,7 @@
         </q-card-section>
         <q-card-section class="q-pt-xs">
           <q-form
-            @submit="onAnular"
+            @submit="delRow"
             class="q-gutter-md"
           >
           <div class="row">
@@ -130,11 +130,24 @@
       <q-card>
         <q-card-section class="row items-center">
           <q-avatar icon="clear" color="red" text-color="white" />
-          <span class="q-ml-sm">Seguro de eliminar Registro.</span>
+          <span class="q-ml-sm">Seguro de Anular.</span>
         </q-card-section>
 
-        <q-card-actions align="right">
-          <q-btn flat label="Eliminar" color="deep-orange" @click="onDel"/>
+        <q-card-actions align="center">
+          <q-form
+          @submit="onAnular"
+          >       
+          <q-input
+              v-model="motivo"
+              type="text"
+              label="Motivo"
+              lazy-rules
+              :rules="[ val => val && val.length > 3 || 'Ingrese el nombre']"
+
+            />
+          
+          <q-btn type="submit" flat label="Anular" color="deep-orange"/>
+          </q-form>
           <q-btn flat label="Cancelar" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
@@ -146,6 +159,7 @@
 
 <script>
 export default {
+  
   data () {
     return {
       alert: false,
@@ -157,8 +171,10 @@ export default {
       accept: false,
       fecha:'',
       dato:{},
+      dato3:{},
       options:[],
       props:[],
+      motivo:'',
       columns: [
         {
           name: 'sales',
@@ -210,39 +226,26 @@ export default {
         this.dato2= producto.row;
         this.dialog_mod=true;
     },
-    deleteRow(producto){
-        console.log(producto.row);
-        this.dato2= producto.row;
+    delRow(){
         this.dialog_del=true;
 
     },
-
-    prompt () {
-        $q.dialog({
-          title: 'Anular Venta',
-          message: 'Cual es el motivo? (Minimum 3 characters)',
-          prompt: {
-            model: '',
-            isValid: val => val.length > 2, // << here is the magic
-            type: 'text' // optional
-          },
-          cancel: true,
-          persistent: true
-        }).onOk(data => {
-          // console.log('>>>> OK, received', data)
-        })
-      },
-    onAnular(){
-        this.$axios.post(process.env.URL+'/anular/'+this.dato2.id).then(res=>{
-         this.$q.notify({
+    onAnular () {
+          this.dato3.user_id=this.$store.state.user.id;
+          this.dato3.motivo=this.motivo;
+          this.dato3.id=this.dato2.id;
+          console.log(this.dato3);
+          this.$axios.post(process.env.URL+'/anular',this.dato3).then(res=>{
+          this.$q.notify({
           color: 'green-4',
           textColor: 'white',
           icon: 'cloud_done',
           message: 'Anulado correctamente'
         });
+        this.dialog_del=false;
         this.dialog_mod=false;
         this.buscar();})
-    },
+      },
     onDel(){
 
     },

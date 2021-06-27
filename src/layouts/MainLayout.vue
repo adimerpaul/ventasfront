@@ -181,6 +181,24 @@
 
         <q-item
           clickable
+          to="/resumen"
+          exact>
+          <q-item-section
+            avatar
+          >
+            <q-icon name="local_mall" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Resumen Dia</q-item-label>
+            <q-item-label caption>
+              Reporte de Ventas 
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item
+          clickable
           to="/client"
           exact>
           <q-item-section

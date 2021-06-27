@@ -1,0 +1,131 @@
+<template>
+  <div class="q-pa-md">
+      <q-form
+       @submit.Enter.prevent="buscar"
+      >
+      <q-input
+      type='date'
+      v-model="dato1.fecha"
+      label="Fecha"
+       lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Por favor ingresa la fecha']"
+      />
+
+    <q-select
+      type='date'
+      v-model="sel"
+      label="Usuario"
+      :options="luser"
+      lazy-rules
+              :rules="[ val => val && val!='' || 'Seleccionar Usuario']"
+      />
+
+        <q-btn type="submit" label="Buscar" color="primary"/>
+      </q-form>
+
+    <q-table
+      title="Ventas"
+      :data="filas"
+      :columns="columns"
+    />
+    <q-input 
+    label="Total"
+    v-model="total1"
+    readonly
+    type="text"
+    />
+
+    <q-table
+      title="Productos"
+      :data="filas2"
+      :columns="columns2"
+    />
+    <q-input 
+    label="Total"
+    v-model="total2"
+    readonly
+    type="text"
+    />
+
+
+  </div>
+
+    
+</template>
+<script>
+export default {
+    data(){
+        return{
+            dato1:{},
+            sel:[],
+            luser:[],
+            filas:[],
+            filas2:[],
+            total1:0,
+            total2:0,
+            columns : [
+  {
+    name: 'id',
+    label: 'id',
+    align: 'left',
+    field: 'id',
+    sortable: true
+  },
+  { name: 'fecha', align: 'center', label: 'fecha', field: 'fecha', sortable: true },
+  { name: 'estado', label: 'estado', field: 'estado', sortable: true },
+  { name: 'cliente', label: 'cliente', field: 'nombrerazon' },
+  { name: 'total', label: 'total', field: 'total' }
+],
+  columns2:[{
+    name: 'id',
+    label: 'id',
+    align: 'left',
+    field: 'product_id',
+    sortable: true
+  },
+  { name: 'producto', align: 'center', label: 'producto', field: 'producto', sortable: true },
+  { name: 'cantidad', label: 'cantidad', field: 'cantidad', sortable: true },
+  { name: 'precio', label: 'precio', field: 'precio' },
+  { name: 'total', label: 'total', field: 'total' },
+    ],
+        }
+    },
+    created() {
+            this.luser=[];
+            this.$axios.post(process.env.URL+'/lusuario').then(res=>{
+             res.data.forEach(row => {
+                this.luser.push({label:row.name,value:row.id});
+            });
+        });  
+    },
+  methods:{
+    buscar(){
+        this.total1=0;
+        this.total2=0;
+
+        this.dato1.id=this.sel.value;
+        this.filas=[];
+        this.filas2=[];
+        this.$axios.post(process.env.URL+'/resumen/',this.dato1).then(res=>{
+            console.log(res.data);
+            res.data.forEach(r => {
+            this.filas.push({id:r.id,fecha:r.fecha,estado:r.estado,nombrerazon:r.client['nombrerazon'],total:r.total});
+            this.total1+=r.total;   
+            });
+
+        });
+        this.$axios.post(process.env.URL+'/resproducto/',this.dato1).then(res=>{
+            console.log(res.data);
+            res.data.forEach(r => {
+            this.filas2.push({product_id:r.product_id,producto:r.nombreproducto,cantidad:r.cant,precio:r.precio,total:r.total});
+            this.total2+=r.total;   
+            });
+
+        });
+
+        console.log(this.filas);
+    },
+    }
+    
+}
+</script>
