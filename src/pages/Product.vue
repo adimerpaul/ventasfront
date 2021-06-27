@@ -301,7 +301,7 @@ export default {
       this.$axios.get(process.env.URL+'/product').then(res=>{
         // console.log(res.data)
         this.data=res.data;
-        this.$q.loading.hiden();
+        this.$q.loading.hide();
       })
     },
     misrubros(){

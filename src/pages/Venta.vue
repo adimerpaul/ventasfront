@@ -310,22 +310,36 @@ export default {
         delivery:this.delivery,
         details:this.$store.state.products,
       }).then(res=>{
-        console.log(res.data);
-        this.misrubros();
+        // console.log(res.data);
+        // this.misrubros();
         this.products=[];
-        if (this.ci!='' && this.ci!=null){
-          let te=res.data;
-          let myWindow = window.open("", "myWindow", "width=200,height=100");
-          myWindow.document.write(te);
-          myWindow.document.close();
-          myWindow.focus();
-          setTimeout(function(){
-            myWindow.print();
-            myWindow.close();
-            // impDetalle(response);
-            //    impAniv(response);
-          },200);
+        this.rubros=[];
+        let te=res.data;
+        if(res.data==1){
+          this.$axios.get(process.env.URL+'/rubro').then(res=>{
+            this.rubros=res.data;
+
+          });
+        }else{
+          this.$axios.get(process.env.URL+'/rubro').then(res=>{
+            // console.log(res.data);
+            this.rubros=res.data;
+            let myWindow = window.open("", "Imprimir", "width=200,height=100");
+            myWindow.document.write(te);
+            myWindow.document.close();
+            myWindow.focus();
+            setTimeout(function(){
+              myWindow.print();
+              myWindow.close();
+              // impDetalle(response);
+              //    impAniv(response);
+            },500);
+          })
         }
+
+        // if (this.ci!='' && this.ci!=null){
+
+        // }
 
       }).catch(err=>{
         //   this.alert=false;
