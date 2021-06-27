@@ -6,9 +6,10 @@ import Product from "../pages/Product";
 import Dosage from "../pages/Dosage";
 import Client from "../pages/Client";
 import User from "../pages/User";
-import Venta from "pages/Venta";
-import Listado from "pages/Listado";
-import Resumen from "pages/Resumen";
+import Venta from "../pages/Venta";
+import Listado from "../pages/Listado";
+import Resumen from "../pages/Resumen";
+import Libroiva from "../pages/Libroiva";
 const routes = [
   {
     path: '/',
@@ -24,6 +25,7 @@ const routes = [
       { path: '/venta', component:Venta ,meta: {requiresAuth: true}},
       { path: '/listado', component:Listado ,meta: {requiresAuth: true}},
       { path: '/resumen', component:Resumen ,meta: {requiresAuth: true}},
+      { path: '/libroiva', component:Libroiva ,meta: {requiresAuth: true}},
     ]
   },
 
