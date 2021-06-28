@@ -23,9 +23,14 @@
       />
       </div>
         <q-btn type="submit" label="Buscar" color="primary"/>
-</div>
+    </div>
       </q-form>
-
+    <q-btn
+    v-if="this.total1>0 && this.total2>0"
+    color="warning"
+    label="IMPRIMIR"
+    @click="imprimir"
+    />
     <q-table
       title="Ventas"
       :data="filas"
@@ -49,7 +54,6 @@
     readonly
     type="text"
     />
-
 
   </div>
 
@@ -127,6 +131,22 @@ export default {
         });
 
         console.log(this.filas);
+    },
+    imprimir(){
+      
+            this.$axios.post(process.env.URL+'/imprimirresumen/',this.dato1).then(res=>{
+            let myWindow = window.open("", "Imprimir", "width=200,height=100");
+            myWindow.document.write(res.data);
+            myWindow.document.close();
+            myWindow.focus();
+            setTimeout(function(){
+              myWindow.print();
+              myWindow.close();
+              // impDetalle(response);
+              //    impAniv(response);
+            },500);
+
+        });
     },
     }
     

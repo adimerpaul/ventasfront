@@ -30,9 +30,9 @@ export default new Vuex.Store({
     auth_success(state, dat){
       // console.log(dat.user);
       // console.log(dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 2));
-      state.status = 'success'
-      state.token = dat.token
-      state.user = dat.user
+      state.status = 'success';
+      state.token = dat.token;
+      state.user = dat.user;
       state.menudosificacion=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 1)!=undefined;
       state.creardosificacion=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 2)!=undefined;
       state.modificardosificacion=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 3)!=undefined;

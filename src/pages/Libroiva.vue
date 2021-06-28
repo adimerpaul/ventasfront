@@ -44,6 +44,7 @@
 </div>
 </template>
 <script>
+import { date } from 'quasar';
     export default {
     data(){
         return{
@@ -70,7 +71,7 @@
     label: 'No',
     field: 'nro'
   },
-  { name: 'fecha', align: 'center', label: 'FECHA', field: 'fecha', sortable: true },
+  { name: 'fecha', align: 'center', label: 'FECHA', field: row=>date.formatDate( row.fecha,"DD/MM/YYYY"), sortable: true },
   { name: 'N Factura', label: 'N FACTURA', field: 'nrocomprobante', sortable: true },
   { name: 'N Autorizacion', label: 'N AUTORIZACION', field: 'nroautorizacion' },
   { name: 'Estado', label: 'ESTADO', field: 'estado' },
