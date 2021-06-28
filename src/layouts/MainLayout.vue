@@ -93,7 +93,9 @@
                 <q-item
           clickable
           to="/secure"
-          exact>
+          exact
+          v-if="$store.state.menurubro"
+          >
           <q-item-section
             avatar
           >
@@ -111,7 +113,9 @@
         <q-item
           clickable
           to="/product"
-          exact>
+          exact
+          v-if="$store.state.menuproducto"
+          >
           <q-item-section
             avatar
           >
@@ -125,10 +129,13 @@
             </q-item-label>
           </q-item-section>
         </q-item>
+
         <q-item
           clickable
           to="/dosage"
-          exact>
+          exact
+          v-if="$store.state.menudosificacion"
+          >
           <q-item-section
             avatar
           >
@@ -145,7 +152,9 @@
         <q-item
           clickable
           to="/venta"
-          exact>
+          exact
+          v-if="$store.state.menuventa"
+          >
           <q-item-section
             avatar
           >
@@ -164,7 +173,9 @@
         <q-item
           clickable
           to="/listado"
-          exact>
+          exact
+          v-if="$store.state.menureporte"
+          >
           <q-item-section
             avatar
           >
@@ -200,7 +211,9 @@
                 <q-item
           clickable
           to="/libroiva"
-          exact>
+          exact
+          v-if="$store.state.menureporte"
+          >
           <q-item-section
             avatar
           >
@@ -218,7 +231,9 @@
         <q-item
           clickable
           to="/client"
-          exact>
+          exact
+          v-if="$store.state.menucliente"
+          >
           <q-item-section
             avatar
           >
@@ -236,7 +251,9 @@
         <q-item
           clickable
           to="/user"
-          exact>
+          exact
+          v-if="$store.state.menuusuario"
+          >
           <q-item-section
             avatar
           >

@@ -33,10 +33,11 @@
         </q-form>
     </div>
     <q-table
-      title="Treats"
+      title="Libro IVA"
       :data="filas"
       :columns="columns"
-      row-key="name"
+      row-key="index"
+      virtual-scroll
     >
     </q-table>
 
@@ -65,13 +66,13 @@
             columns : [
   {
 
-    name: 'index',
+    name: 'nro',
     label: 'No',
-    field: 'index'
+    field: 'nro'
   },
   { name: 'fecha', align: 'center', label: 'FECHA', field: 'fecha', sortable: true },
-  { name: 'N Factura', label: 'N FACTURA', field: 'N Factura', sortable: true },
-  { name: 'N Autorizacion', label: 'N AUTORIZACION', field: 'N Autorizacion' },
+  { name: 'N Factura', label: 'N FACTURA', field: 'nrocomprobante', sortable: true },
+  { name: 'N Autorizacion', label: 'N AUTORIZACION', field: 'nroautorizacion' },
   { name: 'Estado', label: 'ESTADO', field: 'estado' },
   { name: 'cinit', label: 'CI/NIT CLIENTE', field: 'cinit' },
   { name: 'nombrerazon', label: 'NOMBRE O RAZON SOCIAL', field: 'nombrerazon', sortable: true },
@@ -79,9 +80,9 @@
   { name: 'ice', label: 'IMPORTE ICE/IEHD/TASAS', field: 'ice', sortable: true },
   { name: 'exenta', label: 'EXPORTACIONES OPERACIONES EXENTAS', field: 'exenta', sortable: true },
   { name: 'tasa', label: 'VENTAS GRAVADAS A TASA CERO', field: 'tasa', sortable: true },
-  { name: 'subtotal', label: 'SUB TOTAL', field: 'subtotal', sortable: true },
+  { name: 'subtotal', label: 'SUB TOTAL', field: 'total', sortable: true },
   { name: 'rebaja', label: 'DESCUENTOS BONIFICACIONES Y REBAJAS OTORGADAS', field: 'rebaja', sortable: true },
-  { name: 'total2', label: 'IMPORTE BASE PARA DÉBITO FISCAL IVA', field: 'total2', sortable: true },
+  { name: 'total2', label: 'IMPORTE BASE PARA DÉBITO FISCAL IVA', field: 'total', sortable: true },
   { name: 'fiscal', label: 'DÉBITO FISCAL IVA', field: 'fiscal', sortable: true },
   { name: 'codigocontrol', label: 'CÓDIGO DE CONTROL', field: 'codigocontrol', sortable: true }
 ]

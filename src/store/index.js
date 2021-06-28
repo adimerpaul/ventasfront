@@ -34,6 +34,31 @@ export default new Vuex.Store({
       state.token = dat.token
       state.user = dat.user
       state.menudosificacion=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 1)!=undefined;
+      state.creardosificacion=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 2)!=undefined;
+      state.modificardosificacion=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 3)!=undefined;
+      state.eliminardosificacion=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 4)!=undefined;
+      state.menurubro=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 5)!=undefined;
+      state.crearrubro=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 6)!=undefined;
+      state.modificarrubro=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 7)!=undefined;
+      state.eliminarrubro=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 8)!=undefined;
+      state.menuproducto=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 9)!=undefined;
+      state.crearproducto=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 10)!=undefined;
+      state.modificarproducto=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 11)!=undefined;
+      state.eliminarproducto=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 12)!=undefined;
+      state.menuusuario=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 13)!=undefined;
+      state.crearusuario=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 14)!=undefined;
+      state.modificarusuario=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 15)!=undefined;
+      state.eliminarusuario=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 16)!=undefined;
+      state.menucliente=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 17)!=undefined;
+      state.crearliente=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 18)!=undefined;
+      state.modificarcliente=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 19)!=undefined;
+      state.eliminarcliente=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 20)!=undefined;
+      state.menuventa=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 21)!=undefined;
+      state.crearventa=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 22)!=undefined;
+      state.Anularventa=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 23)!=undefined;
+      state.menureporte=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 24)!=undefined;
+
+
     },
     auth_error(state){
       state.status = 'error'
