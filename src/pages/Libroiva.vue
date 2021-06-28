@@ -79,9 +79,9 @@
   { name: 'ice', label: 'IMPORTE ICE/IEHD/TASAS', field: 'ice', sortable: true },
   { name: 'exenta', label: 'EXPORTACIONES OPERACIONES EXENTAS', field: 'exenta', sortable: true },
   { name: 'tasa', label: 'VENTAS GRAVADAS A TASA CERO', field: 'tasa', sortable: true },
-  { name: 'total', label: 'SUB TOTAL', field: 'total', sortable: true },
+  { name: 'subtotal', label: 'SUB TOTAL', field: 'subtotal', sortable: true },
   { name: 'rebaja', label: 'DESCUENTOS BONIFICACIONES Y REBAJAS OTORGADAS', field: 'rebaja', sortable: true },
-  { name: 'total', label: 'IMPORTE BASE PARA DÉBITO FISCAL IVA', field: 'total', sortable: true },
+  { name: 'total2', label: 'IMPORTE BASE PARA DÉBITO FISCAL IVA', field: 'total2', sortable: true },
   { name: 'fiscal', label: 'DÉBITO FISCAL IVA', field: 'fiscal', sortable: true },
   { name: 'codigocontrol', label: 'CÓDIGO DE CONTROL', field: 'codigocontrol', sortable: true }
 ]
@@ -93,9 +93,11 @@
     methods:{
 
         buscarlibro(){
-        // this.$axios.post(process.env.URL+'/libro',this.fecha).then(res=>{
-        //     this.filas=res.data;
-        //     });
+          // console.log(this.fecha);
+        this.$axios.post(process.env.URL+'/libro', {anio:this.fecha.anio,mes:this.fecha.mes.value}).then(res=>{
+          console.log(res.data);
+            this.filas=res.data;
+            });
         },
 
     }
