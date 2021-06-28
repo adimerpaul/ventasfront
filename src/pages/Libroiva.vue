@@ -1,10 +1,11 @@
 <template>
 <div class="q-pa-md">
     <h6>LIBRO DE IVA</h6>
+  <div class="row">
         <q-form
-            @submit.Enter.prevent="buscarlibro"  
+            @submit.Enter.prevent="buscarlibro"
         >
-    <div class="row">
+
 
         <q-select
             label="Mes"
@@ -24,7 +25,7 @@
 
         />
 
-        <q-btn 
+        <q-btn
         label="Generar"
         type="submit"
         color="primary"
@@ -47,7 +48,7 @@
         return{
 
             fecha:{},
-            options:[{label:"Enero",value:'01'}, 
+            options:[{label:"Enero",value:'01'},
             {label:"Febrero",value:'02'},
             {label:"Marzo",value:'03'},
             {label:"Abril",value:'04'},
@@ -61,9 +62,9 @@
             {label:"Diciembre",value:'12'},
             ],
             filas:[],
-            columns = [
+            columns : [
   {
-    
+
     name: 'index',
     label: 'No',
     field: 'index'
@@ -87,17 +88,17 @@
         }
     },
         created() {
-            //this.fecha.anio=date('Y'); 
+            //this.fecha.anio=date('Y');
     },
     methods:{
 
         buscarlibro(){
         // this.$axios.post(process.env.URL+'/libro',this.fecha).then(res=>{
-        //     this.filas=res.data;   
+        //     this.filas=res.data;
         //     });
         },
- 
+
     }
     }
-    
+
 </script>
