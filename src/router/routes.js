@@ -10,6 +10,7 @@ import Venta from "../pages/Venta";
 import Listado from "../pages/Listado";
 import Resumen from "../pages/Resumen";
 import Libroiva from "../pages/Libroiva";
+import Deliveri from "../pages/Deliveri";
 const routes = [
   {
     path: '/',
@@ -26,6 +27,7 @@ const routes = [
       { path: '/listado', component:Listado ,meta: {requiresAuth: true}},
       { path: '/resumen', component:Resumen ,meta: {requiresAuth: true}},
       { path: '/libroiva', component:Libroiva ,meta: {requiresAuth: true}},
+      { path: '/deliveri', component:Deliveri ,meta: {requiresAuth: true}},
     ]
   },
 

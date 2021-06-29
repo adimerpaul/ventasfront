@@ -48,25 +48,24 @@
 
             <q-input
               filled
-              type="text"
               v-model="dato.color"
-              label="Ingresar color"
-              lazy-rules
-              :rules="[
-              val => val && val.length > 0 || 'Por favor ingresa datos',
-              // val => val > 0 && val < 100 || 'Please type a real age'
-              ]"
-            />
-            <q-input
-              filled
-              type="text"
-              v-model="dato.imagen"
-              label="Ingresar imagen"
-              lazy-rules
-              :rules="[
-              val => val && val.length > 0 || 'Por favor ingresa datos',
-              // val => val > 0 && val < 100 || 'Please type a real age'
-              ]"
+              class="my-input"
+            >
+              <template v-slot:append>
+                <q-icon name="colorize" class="cursor-pointer">
+                  <q-popup-proxy transition-show="scale" transition-hide="scale">
+                    <q-color v-model="dato.color" />
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+
+            <q-uploader
+              style="max-width: 300px"
+              label="Main Image"
+              :factory="uploadFile"
+              max-files="1"
+              accept=".jpg,.png, image/*"
             />
 
 <!--            <q-toggle v-model="accept" label="I accept the license and terms" />-->
@@ -118,6 +117,7 @@
             <div class="text-h6">{{ props.row.rubro.nombre }}</div>
           </q-td>
           <q-td key="opcion" :props="props">
+            <q-btn dense round flat color="green" @click="addRow(props)" icon="add"></q-btn>
             <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
             <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
           </q-td>
@@ -133,7 +133,7 @@
     </q-table>
     <q-dialog v-model="dialog_mod">
       <q-card>
-        <q-card-section class="bg-green-14 text-white">
+        <q-card-section class="bg-amber-14 text-white">
           <div class="text-h6">Modificar</div>
         </q-card-section>
         <q-card-section class="q-pt-xs">
@@ -184,19 +184,21 @@
               emit-value
             />
 
-<!--            <q-input-->
-<!--              filled-->
-<!--              type="text"-->
-<!--              v-model="dato2.color"-->
-<!--              label="Ingresar color"-->
-<!--              lazy-rules-->
-<!--              :rules="[-->
-<!--              val => val && val.length > 0 || 'Por favor ingresa datos',-->
-<!--              // val => val > 0 && val < 100 || 'Please type a real age'-->
-<!--              ]"-->
-<!--            />-->
-
             <q-input
+              filled
+              v-model="dato2.color"
+              class="my-input"
+            >
+              <template v-slot:append>
+                <q-icon name="colorize" class="cursor-pointer">
+                  <q-popup-proxy transition-show="scale" transition-hide="scale">
+                    <q-color v-model="dato.color" />
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+
+            <!-- <q-input
               filled
               type="text"
               v-model="dato2.imagen"
@@ -206,7 +208,7 @@
               val =>  val.length > 0 || 'Por favor ingresa datos',
               // val => val > 0 && val < 100 || 'Please type a real age'
               ]"
-            />
+            /> -->
 
 <!--            <q-toggle v-model="accept" label="I accept the license and terms" />-->
 
@@ -216,6 +218,43 @@
 <!--              <q-card-actions align="right">-->
                 <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
 <!--              </q-card-actions>-->
+            </div>
+          </q-form>
+        </q-card-section>
+
+
+      </q-card>
+    </q-dialog>
+
+<q-dialog v-model="dialog_add">
+      <q-card>
+        <q-card-section class="bg-amber-14 text-white">
+          <div class="text-h6">Agregar Producto</div>
+        </q-card-section>
+        <q-card-section class="q-pt-xs">
+          <q-form
+            @submit="onAdd"
+            class="q-gutter-md"
+          >
+            <q-input
+              filled
+              v-model="dato2.nombre"
+              type="text"
+              label="Nombre"
+              readonly
+            />
+
+            <q-input
+              filled
+              v-model="agregar"
+              label="Cantidad a agregar"
+              type="number"
+              lazy-rules
+              :rules="[ val => val>0 && val < 500 || 'Por favor Valor']"
+            />
+
+             <div>
+              <q-btn label="Agregar" type="submit" color="positive" icon="add_circle"/>
             </div>
           </q-form>
         </q-card-section>
@@ -250,6 +289,7 @@ export default {
       alert: false,
       dialog_mod:false,
       dialog_del:false,
+      dialog_add:false,
       name: null,
       age: null,
       accept: false,
@@ -257,6 +297,7 @@ export default {
       dato2:{},
       options:[],
       props:[],
+      agregar:0,
       columns: [
         {
           name: 'nombre',
@@ -296,6 +337,41 @@ export default {
     this.misrubros();
   },
   methods:{
+    uploadFile(files) {
+      this.file_path = files[0]
+      const fileData = new FormData()
+      fileData.append('imagen', this.file_path)
+      // console.log(fileData);
+      //Replace http://localhost:8000 with your API URL
+      const uploadFile = this.$axios.post('http://localhost:8000/api/upload', fileData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((response) => {
+        // console.log(response.data);
+        this.dato.imagen=response.data;
+        this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Imagen subido correctamente!'
+        });
+        // Notify plugin needs to be installed
+        // https://quasar.dev/quasar-plugins/notify#Installation
+        // this.$q.notify({
+        //   type: 'possitive',
+        //   message: `Image Uploaded`
+        // })
+      });
+    },
+    onRejected (rejectedEntries) {
+      // Notify plugin needs to be installed
+      // https://quasar.dev/quasar-plugins/notify#Installation
+      this.$q.notify({
+        type: 'negative',
+        message: `${rejectedEntries.length} file(s) did not pass validation constraints`
+      })
+    },
     misdatos(){
       this.$q.loading.show();
       this.$axios.get(process.env.URL+'/product').then(res=>{
@@ -321,8 +397,14 @@ export default {
         // console.log(producto.row);
         this.dato2= producto.row;
         this.dialog_del=true;
-
     },
+
+    addRow(producto){
+        // console.log(producto.row);
+        this.dato2= producto.row;
+        this.dialog_add=true;
+    },
+
 
     onSubmit () {
       this.$q.loading.show();
@@ -365,7 +447,20 @@ export default {
         this.dialog_del=false;
         this.misdatos();})
     },
-
+    onAdd(){
+        this.$q.loading.show();
+        this.dato2.cantidad+=parseInt(this.agregar);
+        this.$axios.post(process.env.URL+'/productadd',this.dato2).then(res=>{
+         this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Agregado correctamente'
+        });
+        this.dialog_add=false;
+        this.agregar=0; 
+        this.misdatos();})
+    },
 
 
     onReset () {

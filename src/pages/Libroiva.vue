@@ -1,22 +1,35 @@
 <template>
 <div class="q-pa-md">
     <h6>LIBRO DE IVA</h6>
-  <div class="row">
         <q-form
             @submit.Enter.prevent="buscarlibro"
         >
+        <div style="width:40%">
+        <q-input
+            label="Fecha"
+            type="date"
+            v-model="fecha2"
+            hint="Ingrese la fecha"
+            
+        /></div>
+  <div class="row">
 
+      <div style="width:20%">
 
         <q-select
             label="Mes"
-            v-model="fecha.mes"
+            hint="Seleccione Mes"
+            v-model="fecha1.mes"
             :options="options"
+            lazy-rules
+              :rules="[ val =>  val!='' || 'Ingrese el mes']"
 
         />
-
+      </div>
+      <div style="width:30%">
         <q-input
             label="Anio"
-            v-model="fecha.anio"
+            v-model="fecha1.anio"
             type="number"
             min=1000
             max=9999
@@ -24,14 +37,14 @@
               :rules="[ val => val>1000 && val<9999 && val.length >=4 || 'Ingrese el anio']"
 
         />
-
+        </div>
         <q-btn
         label="Generar"
         type="submit"
         color="primary"
         />
-        </q-form>
     </div>
+        </q-form>
     <q-table
       title="Libro IVA"
       :data="filas"
@@ -49,7 +62,8 @@ import { date } from 'quasar';
     data(){
         return{
 
-            fecha:{},
+            fecha1:{},
+            fecha2:'',
             options:[{label:"Enero",value:'01'},
             {label:"Febrero",value:'02'},
             {label:"Marzo",value:'03'},
@@ -95,11 +109,20 @@ import { date } from 'quasar';
     methods:{
 
         buscarlibro(){
+          console.log(this.fecha2);
+        //if(this.fecha2=='' || this.fecha2==null){  
           // console.log(this.fecha);
-        this.$axios.post(process.env.URL+'/libro', {anio:this.fecha.anio,mes:this.fecha.mes.value}).then(res=>{
+        this.$axios.post(process.env.URL+'/libro', {anio:this.fecha1.anio,mes:this.fecha1.mes.value}).then(res=>{
           console.log(res.data);
             this.filas=res.data;
             });
+        //}
+        //else{
+         /// this.$axios.post(process.env.URL+'/libro2', {fecha:this.fecha2}).then(res=>{
+          //console.log(res.data);
+           // this.filas=res.data;
+            //});
+        //}
         },
 
     }

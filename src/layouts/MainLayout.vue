@@ -80,7 +80,7 @@
           <q-item-section
             avatar
           >
-            <q-icon name="list" />
+            <q-icon name="engineering" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Dosificacion</q-item-label>
@@ -130,25 +130,6 @@
           </q-item-section>
         </q-item>
 
-        <q-item
-          clickable
-          to="/dosage"
-          exact
-          v-if="$store.state.menudosificacion"
-          >
-          <q-item-section
-            avatar
-          >
-            <q-icon name="engineering" />
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label>Dosificaciones</q-item-label>
-            <q-item-label caption>
-              Dosificaciones para la venta
-            </q-item-label>
-          </q-item-section>
-        </q-item>
         <q-item
           clickable
           to="/venta"

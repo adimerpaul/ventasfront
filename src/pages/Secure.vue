@@ -329,14 +329,14 @@ export default {
       // })
 
     },
-    editRow(producto){
-        // console.log(producto.row);
-        this.dato2= producto.row;
+    editRow(rubro){
+        // console.log(rubro.row);
+        this.dato2= rubro.row;
         this.dialog_mod=true;
     },
-    deleteRow(producto){
-        // console.log(producto.row);
-        this.dato2= producto.row;
+    deleteRow(rubro){
+        // console.log(rubro.row);
+        this.dato2= rubro.row;
         this.dialog_del=true;
 
     },
