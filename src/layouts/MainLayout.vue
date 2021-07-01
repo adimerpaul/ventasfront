@@ -90,7 +90,7 @@
           </q-item-section>
         </q-item>
 
-                <q-item
+          <q-item
           clickable
           to="/secure"
           exact
@@ -109,6 +109,27 @@
             </q-item-label>
           </q-item-section>
         </q-item>
+
+        <q-item
+          clickable
+          to="/deliveri"
+          exact
+          
+          >
+          <q-item-section
+            avatar
+          >
+            <q-icon name="delivery_dining" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Deliveries</q-item-label>
+            <q-item-label caption>
+              Lista de Deliveries
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
 
         <q-item
           clickable
