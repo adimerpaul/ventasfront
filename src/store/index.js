@@ -55,8 +55,10 @@ export default new Vuex.Store({
       state.eliminarcliente=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 20)!=undefined;
       state.menuventa=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 21)!=undefined;
       state.crearventa=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 22)!=undefined;
-      state.Anularventa=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 23)!=undefined;
+      state.anularventa=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 23)!=undefined;
       state.menureporte=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 24)!=undefined;
+      state.menudeliveri=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 25)!=undefined;
+      state.modificardeliveri=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 26)!=undefined;
 
 
     },

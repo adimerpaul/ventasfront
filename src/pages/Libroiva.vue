@@ -62,7 +62,7 @@ import { date } from 'quasar';
     data(){
         return{
 
-            fecha1:{},
+            fecha1:{anio:date.formatDate(Date(),'YYYY')},
             fecha2:'',
             options:[{label:"Enero",value:'01'},
             {label:"Febrero",value:'02'},
@@ -104,7 +104,7 @@ import { date } from 'quasar';
         }
     },
         created() {
-            //this.fecha.anio=date('Y');
+          this.fecha1={anio:date.formatDate(Date(),'YYYY'),mes:this.fecha1.mes=this.options[date.formatDate(Date(),'M') - 1]};
     },
     methods:{
 

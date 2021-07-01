@@ -259,13 +259,11 @@ export default {
                 this.options.push({label:row.nombre,value:row.id});
             });
         })
-        console.log(this.options);
     },
     valemail(em){
         return emailPattern.test(em);
     },
     editRow(user){
-        console.log(user.row);
         this.dato2= user.row;
         this.dato2.group=[];
         user.row.usuariopermisos.forEach(cl => {
@@ -276,14 +274,11 @@ export default {
         this.dialog_mod=true;
     },
     editPass(user){
-        console.log(user.row);
-        
         this.dato4= user.row;
 
         this.dialog_pass=true;
     },
     deleteRow(user){
-        console.log(user.row);
         this.dato3= user.row;
         this.dialog_del=true;
 
@@ -291,7 +286,6 @@ export default {
 
     onSubmit () {
       this.$q.loading.show();
-        console.log(this.dato);
       this.$axios.post(process.env.URL+'/register', this.dato).then(res=>{
         console.log(res.data);
         this.$q.notify({
@@ -308,7 +302,6 @@ export default {
     onPass () {
       this.$q.loading.show();
       this.$axios.post(process.env.URL+'/modpass', this.dato4).then(res=>{
-        console.log(res.data);
         this.$q.notify({
           color: 'green-4',
           textColor: 'white',
