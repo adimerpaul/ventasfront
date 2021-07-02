@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-btn label="Crear Producto" color="positive" @click="alert = true" icon="add_circle" class="q-mb-xs" />
+    <q-btn v-if="$store.state.crearproducto" label="Crear Producto" color="positive" @click="alert = true" icon="add_circle" class="q-mb-xs" />
     <q-dialog v-model="alert">
       <q-card>
         <q-card-section class="bg-green-14 text-white">
@@ -118,8 +118,8 @@
           </q-td>
           <q-td key="opcion" :props="props">
             <q-btn dense round flat color="green" @click="addRow(props)" icon="add"></q-btn>
-            <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
-            <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
+            <q-btn v-if="$store.state.modificarproducto" dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
+            <q-btn v-if="$store.state.eliminarproducto" dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
           </q-td>
         </q-tr>
       </template>

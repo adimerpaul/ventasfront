@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-btn label="Crear Dosificacion" color="positive" @click="alert = true" icon="add_circle" class="q-mb-xs" />
+    <q-btn v-if="$store.state.creardosificacion" label="Crear Dosificacion" color="positive" @click="alert = true" icon="add_circle" class="q-mb-xs" />
     <q-dialog v-model="alert">
       <q-card style="max-width: 80%;width:50%;">
         <q-card-section class="bg-green-14 text-white">
@@ -100,8 +100,8 @@
     >
     <template v-slot:body-cell-opcion="props">
             <q-td :props="props">
-              <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
-              <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
+              <q-btn v-if="$store.state.modificardosificacion" dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
+              <q-btn v-if="$store.state.eliminardosificacion" dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
             </q-td>          
           </template>
 

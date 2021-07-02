@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-btn label="Crear Rubro" color="positive" @click="alert = true" icon="add_circle" class="q-mb-xs" />
+    <q-btn v-if="$store.state.crearrubro" label="Crear Rubro" color="positive" @click="alert = true" icon="add_circle" class="q-mb-xs" />
     <q-dialog v-model="alert">
       <q-card>
         <q-card-section class="bg-green-14 text-white">
@@ -68,8 +68,6 @@
 
             <div>
               <q-btn label="Crear" type="submit" color="positive" icon="add_circle"/>
-<!--              <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />-->
-<!--              <q-card-actions align="right">-->
                 <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
 <!--              </q-card-actions>-->
             </div>
@@ -115,8 +113,8 @@
 
           </q-td>
           <q-td key="opcion" :props="props">
-              <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
-              <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
+              <q-btn v-if="$store.state.modificarrubro" dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
+              <q-btn v-if="$store.state.eliminarrubro" dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
           </q-td>
         </q-tr>
       </template>

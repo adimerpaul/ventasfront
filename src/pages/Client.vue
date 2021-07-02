@@ -15,7 +15,7 @@
           </form>
 
       </div>
-    <q-btn label="Agregar Cliente " color="positive" @click="alert = true" icon="add_circle" class="q-mb-xs" />
+    <q-btn v-if="$store.state.crearcliente" label="Agregar Cliente " color="positive" @click="alert = true" icon="add_circle" class="q-mb-xs" />
     <q-dialog v-model="alert">
       <q-card>
         <q-card-section class="bg-green-14 text-white">
@@ -68,8 +68,8 @@
     >
     <template v-slot:body-cell-opcion="props">
             <q-td :props="props">
-              <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
-              <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
+              <q-btn v-if="$store.state.modificarcliente" dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
+              <q-btn v-if="$store.state.eliminarcliente" dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
             </q-td>
           </template>
 
