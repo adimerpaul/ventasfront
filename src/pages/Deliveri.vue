@@ -40,7 +40,7 @@
     >
     <template v-slot:body-cell-opcion="props">
             <q-td :props="props">
-              <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
+              <q-btn v-if="$store.state.modificardeliveri" dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
             </q-td>          
           </template>
 

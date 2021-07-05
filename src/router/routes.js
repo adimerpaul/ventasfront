@@ -1,3 +1,4 @@
+import QChart from 'quasar-components-chart'
 import MainLayout from "../layouts/MainLayout";
 import Index from "../pages/Index";
 import Login from "../pages/Login";
@@ -8,9 +9,11 @@ import Client from "../pages/Client";
 import User from "../pages/User";
 import Venta from "../pages/Venta";
 import Listado from "../pages/Listado";
+import Listadodeliveri from "../pages/Listadodeliveri";
 import Resumen from "../pages/Resumen";
 import Libroiva from "../pages/Libroiva";
 import Deliveri from "../pages/Deliveri";
+import Informe from "../pages/Informe";
 const routes = [
   {
     path: '/',
@@ -25,9 +28,11 @@ const routes = [
       { path: '/user', component:User ,meta: {requiresAuth: true}},
       { path: '/venta', component:Venta ,meta: {requiresAuth: true}},
       { path: '/listado', component:Listado ,meta: {requiresAuth: true}},
+      { path: '/listadodeliveri', component:Listadodeliveri ,meta: {requiresAuth: true}},
       { path: '/resumen', component:Resumen ,meta: {requiresAuth: true}},
       { path: '/libroiva', component:Libroiva ,meta: {requiresAuth: true}},
       { path: '/deliveri', component:Deliveri ,meta: {requiresAuth: true}},
+      { path: '/informe', component:Informe ,meta: {requiresAuth: true}},
     ]
   },
 

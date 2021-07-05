@@ -114,6 +114,7 @@
           clickable
           to="/deliveri"
           exact
+          v-if="$store.state.menudeliveri"
           
           >
           <q-item-section
@@ -194,6 +195,26 @@
 
         <q-item
           clickable
+          to="/listadodeliveri"
+          exact
+          v-if="$store.state.menureporte"
+          >
+          <q-item-section
+            avatar
+          >
+            <q-icon name="delivery_dining" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Listado Deliveri</q-item-label>
+            <q-item-label caption>
+              Reporte por cobrar 
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item
+          clickable
           to="/resumen"
           exact>
           <q-item-section
@@ -206,6 +227,25 @@
             <q-item-label>Resumen Dia</q-item-label>
             <q-item-label caption>
               Reporte de Ventas 
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
+
+        <q-item
+          clickable
+          to="/informe"
+          exact>
+          <q-item-section
+            avatar
+          >
+            <q-icon name="bar_chart" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Grafica Producto</q-item-label>
+            <q-item-label caption>
+              Reporte de Productos 
             </q-item-label>
           </q-item-section>
         </q-item>
