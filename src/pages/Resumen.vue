@@ -98,6 +98,8 @@ export default {
         }
     },
     created() {
+      this.dato1.fecha=date.formatDate(Date(),'YYYY-MM-DD');
+
             this.luser=[];
             this.$axios.post(process.env.URL+'/lusuario').then(res=>{
              res.data.forEach(row => {

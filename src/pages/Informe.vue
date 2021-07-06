@@ -50,6 +50,11 @@
    mounted () {
     
   },
+  created()
+  {
+      this.fecha.ini=date.formatDate(Date(),'YYYY-MM-DD');
+      this.fecha.fin=date.formatDate(Date(),'YYYY-MM-DD');
+  },
   methods: {
       buscar(){
           this.producto=[];

@@ -211,6 +211,7 @@ export default {
     }
   },
   created() {
+      this.fecha=date.formatDate(Date(),'YYYY-MM-DD');
     
   },
   methods:{
