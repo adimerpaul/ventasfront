@@ -41,7 +41,7 @@
               lazy-rules
               :rules="[ val => val.length > 8 || 'Ingrese password']"
             />
-            
+
             <q-input
               filled
               v-model="verifica"
@@ -174,7 +174,7 @@
               lazy-rules
               :rules="[ val => val.length > 8 || 'Ingrese password']"
             />
-            
+
             <q-input
               filled
               v-model="verifica"
@@ -184,7 +184,7 @@
               lazy-rules
               :rules="[ val => val==dato4.password || 'No es igual']"
             />
-            
+
             <div>
               <q-btn label="Modificar" type="submit" color="positive" icon="add_circle"/>
 <!--              <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />-->
@@ -264,12 +264,13 @@ export default {
         return emailPattern.test(em);
     },
     editRow(user){
+      console.log(user);
         this.dato2= user.row;
         this.dato2.group=[];
         user.row.usuariopermisos.forEach(cl => {
-            this.dato2.group.push(cl.permiso_id);    
+            this.dato2.group.push(cl.permiso_id);
         });
-        console.log(this.dato2);
+        // console.log(this.dato2);
 
         this.dialog_mod=true;
     },

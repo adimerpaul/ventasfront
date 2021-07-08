@@ -114,7 +114,7 @@
                   class="q-gutter-md"
                 >
                   <div class="row">
-                    <div class="col-6">
+                    <div class="col-4">
                       <q-input
                         @keyup="onkeyup"
                         filled
@@ -125,7 +125,7 @@
                         :rules="[ val => val && val.length > 0 || 'Please type something']"
                       />
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                       <q-input
                         filled
                         v-model="nombrerazon"
@@ -135,9 +135,19 @@
                         :rules="[ val => val && val.length > 0 || 'Please type something']"
                       />
                     </div>
+                    <div class="col-4">
+                      <q-input
+                        filled
+                        v-model="fecha"
+                        label="fecha *"
+                        hint="fecha"
+                        lazy-rules
+                        type="date"
+                        :rules="[ val => val && val.length > 0 || 'Please type something']"
+                      />
+                    </div>
                     <div class="col-3 q-pa-xs">
                       <q-input
-                        @keyup="onkeyup"
                         filled
                         v-model="total"
                         label="Total*"
@@ -191,11 +201,13 @@ export default {
       products:[],
       url:process.env.URL,
       icon:true,
+      fecha:'2021-01-01',
       ci:'1010',
       nombrerazon:'JUAN PEREZ',
       recibido:0,
       cambio:0,
       delivery:'',
+      total:'',
       options: [
         // 'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
       ]
@@ -309,8 +321,9 @@ export default {
         nombrerazon:this.nombrerazon,
         delivery:this.delivery,
         details:this.$store.state.products,
+        fecha:this.fecha
       }).then(res=>{
-        // console.log(res.data);
+        console.log(res.data);
         // this.misrubros();
         this.products=[];
         this.rubros=[];
@@ -353,18 +366,18 @@ export default {
     }
   },
   computed:{
-    total:function (){
-      let t=0;
-      this.$store.state.products.forEach(r=>{
-        // console.log(r.ventas);
-        // if (r.ventas.length==1){
-        // console.log(r.ventas[0].total);
-        t+= parseFloat(r.precio)*parseFloat(r.cantidad);
-        // }
-        // t+=
-      })
-      return t.toFixed(2);
-    }
+    // total:function (){
+    //   let t=0;
+    //   this.$store.state.products.forEach(r=>{
+    //     // console.log(r.ventas);
+    //     // if (r.ventas.length==1){
+    //     // console.log(r.ventas[0].total);
+    //     t+= parseFloat(r.precio)*parseFloat(r.cantidad);
+    //     // }
+    //     // t+=
+    //   })
+    //   return t.toFixed(2);
+    // }
   }
 }
 </script>
