@@ -297,6 +297,8 @@ export default {
     },
     onMod(){
         this.$q.loading.show();
+        this.dato2.nrofactura=this.dato2.nrofactini;
+
         this.$axios.put(process.env.URL+'/dosage/'+this.dato2.id,this.dato2).then(res=>{
          this.$q.notify({
           color: 'green-4',
