@@ -36,7 +36,7 @@
       :data="filas"
       :columns="columns"
     />
-    <q-input 
+    <q-input
     label="Total"
     v-model="total1"
     readonly
@@ -48,7 +48,7 @@
       :data="filas2"
       :columns="columns2"
     />
-    <q-input 
+    <q-input
     label="Total"
     v-model="total2"
     readonly
@@ -57,9 +57,10 @@
 
   </div>
 
-    
+
 </template>
 <script>
+import {date} from 'quasar'
 export default {
     data(){
         return{
@@ -105,7 +106,7 @@ export default {
              res.data.forEach(row => {
                 this.luser.push({label:row.name,value:row.id});
             });
-        });  
+        });
     },
   methods:{
     buscar(){
@@ -119,7 +120,7 @@ export default {
             console.log(res.data);
             res.data.forEach(r => {
             this.filas.push({id:r.id,fecha:r.fecha,estado:r.estado,nombrerazon:r.client['nombrerazon'],total:r.total});
-            this.total1+=r.total;   
+            this.total1+=r.total;
             });
 
         });
@@ -127,7 +128,7 @@ export default {
             console.log(res.data);
             res.data.forEach(r => {
             this.filas2.push({product_id:r.product_id,producto:r.nombreproducto,cantidad:r.cant,precio:r.precio,total:r.total});
-            this.total2+=r.total;   
+            this.total2+=r.total;
             });
 
         });
@@ -135,7 +136,7 @@ export default {
         console.log(this.filas);
     },
     imprimir(){
-      
+
             this.$axios.post(process.env.URL+'/imprimirresumen/',this.dato1).then(res=>{
             let myWindow = window.open("", "Imprimir", "width=200,height=100");
             myWindow.document.write(res.data);
@@ -151,6 +152,6 @@ export default {
         });
     },
     }
-    
+
 }
 </script>

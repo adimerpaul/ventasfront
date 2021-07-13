@@ -114,7 +114,7 @@
                   class="q-gutter-md"
                 >
                   <div class="row">
-                    <div class="col-4">
+                    <div class="col-6">
                       <q-input
                         @keyup="onkeyup"
                         filled
@@ -125,7 +125,7 @@
                         :rules="[ val => val && val.length > 0 || 'Please type something']"
                       />
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                       <q-input
                         filled
                         v-model="nombrerazon"
@@ -135,17 +135,17 @@
                         :rules="[ val => val && val.length > 0 || 'Please type something']"
                       />
                     </div>
-                    <div class="col-4">
-                      <q-input
-                        filled
-                        v-model="fecha"
-                        label="fecha *"
-                        hint="fecha"
-                        lazy-rules
-                        type="date"
-                        :rules="[ val => val && val.length > 0 || 'Please type something']"
-                      />
-                    </div>
+<!--                    <div class="col-4">-->
+<!--                      <q-input-->
+<!--                        filled-->
+<!--                        v-model="fecha"-->
+<!--                        label="fecha *"-->
+<!--                        hint="fecha"-->
+<!--                        lazy-rules-->
+<!--                        type="date"-->
+<!--                        :rules="[ val => val && val.length > 0 || 'Please type something']"-->
+<!--                      />-->
+<!--                    </div>-->
                     <div class="col-3 q-pa-xs">
                       <q-input
                         filled
@@ -200,14 +200,14 @@ export default {
       rubros:[],
       products:[],
       url:process.env.URL,
-      icon:true,
+      icon:false,
       fecha:'2021-01-01',
       ci:'1010',
       nombrerazon:'JUAN PEREZ',
       recibido:0,
       cambio:0,
       delivery:'',
-      total:'',
+      // total:'',
       options: [
         // 'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
       ]
@@ -218,9 +218,11 @@ export default {
 
     this.$axios.get(process.env.URL+'/deliveri').then(res=>{
       // this.options=res.data;
+      this.options.push('')
       res.data.forEach(r=>{
         this.options.push(r.nombre);
       })
+      // console.log(this.options)
     })
 
   },
@@ -294,8 +296,38 @@ export default {
         // console.log(this.$store.state.sale.products.find(p=>p.product_id === 1));
       // }
     },
+    comanda(sale_id){
+      let mc=this
+      this.$axios.get(process.env.URL+'/comanda/'+sale_id).then(res=>{
+        let myWindow = window.open("", "Imprimir", "width=200,height=100");
+        myWindow.document.write(res.data);
+        myWindow.document.close();
+        myWindow.focus();
+        setTimeout(function(){
+          myWindow.print();
+          myWindow.close();
+          mc.comanda2(sale_id);
+          //    impAniv(response);
+        },500);
+      })
+    },
+    comanda2(sale_id){
+      this.$axios.get(process.env.URL+'/comanda/'+sale_id).then(res=>{
+        let myWindow = window.open("", "Imprimir", "width=200,height=100");
+        myWindow.document.write(res.data);
+        myWindow.document.close();
+        myWindow.focus();
+        setTimeout(function(){
+          myWindow.print();
+          myWindow.close();
+          // this.comanda(sale_id);
+          //    impAniv(response);
+        },500);
+      })
+    },
     onsubmit(){
       // console.log('a');
+      let mc=this;
       if (this.ci=='' || this.ci==null){
         this.$q.notify({
           color: 'red-5',
@@ -323,32 +355,71 @@ export default {
         details:this.$store.state.products,
         fecha:this.fecha
       }).then(res=>{
-        console.log(res.data);
+        this.icon=false
+        this.$store.state.products=[]
+        // console.log(res.data);
         // this.misrubros();
         this.products=[];
         this.rubros=[];
-        let te=res.data;
-        if(res.data==1){
+        if (res.data.tipo=='F'){
+          let sale_id=res.data.sale_id;
           this.$axios.get(process.env.URL+'/rubro').then(res=>{
             this.rubros=res.data;
-
-          });
-        }else{
-          this.$axios.get(process.env.URL+'/rubro').then(res=>{
-            // console.log(res.data);
-            this.rubros=res.data;
-            let myWindow = window.open("", "Imprimir", "width=200,height=100");
-            myWindow.document.write(te);
-            myWindow.document.close();
-            myWindow.focus();
-            setTimeout(function(){
-              myWindow.print();
-              myWindow.close();
-              // impDetalle(response);
-              //    impAniv(response);
-            },500);
+            this.$axios.get(process.env.URL+'/factura/'+sale_id).then(res=>{
+                  let myWindow = window.open("", "Imprimir", "width=200,height=100");
+                  myWindow.document.write(res.data);
+                  myWindow.document.close();
+                  myWindow.focus();
+                  setTimeout(function(){
+                    myWindow.print();
+                    myWindow.close();
+                    mc.comanda(sale_id);
+                    //    impAniv(response);
+                  },500);
+            })
           })
         }
+        else{
+          let sale_id=res.data.sale_id;
+          this.$axios.get(process.env.URL+'/rubro').then(res=>{
+            this.rubros=res.data;
+            this.comanda(sale_id);
+            // this.$axios.get(process.env.URL+'/factura/'+sale_id).then(res=>{
+            //   let myWindow = window.open("", "Imprimir", "width=200,height=100");
+            //   myWindow.document.write(res.data);
+            //   myWindow.document.close();
+            //   myWindow.focus();
+            //   setTimeout(function(){
+            //     myWindow.print();
+            //     myWindow.close();
+            //     mc.comanda(sale_id);
+            //     //    impAniv(response);
+            //   },500);
+            // })
+          })
+        }
+        // let te=res.data;
+        // if(res.data==1){
+        //   this.$axios.get(process.env.URL+'/rubro').then(res=>{
+        //     this.rubros=res.data;
+        //
+        //   });
+        // }else{
+        //   this.$axios.get(process.env.URL+'/rubro').then(res=>{
+        //     // console.log(res.data);
+        //     this.rubros=res.data;
+        //     let myWindow = window.open("", "Imprimir", "width=200,height=100");
+        //     myWindow.document.write(te);
+        //     myWindow.document.close();
+        //     myWindow.focus();
+        //     setTimeout(function(){
+        //       myWindow.print();
+        //       myWindow.close();
+        //       // impDetalle(response);
+        //       //    impAniv(response);
+        //     },500);
+        //   })
+        // }
 
         // if (this.ci!='' && this.ci!=null){
 
@@ -366,18 +437,18 @@ export default {
     }
   },
   computed:{
-    // total:function (){
-    //   let t=0;
-    //   this.$store.state.products.forEach(r=>{
-    //     // console.log(r.ventas);
-    //     // if (r.ventas.length==1){
-    //     // console.log(r.ventas[0].total);
-    //     t+= parseFloat(r.precio)*parseFloat(r.cantidad);
-    //     // }
-    //     // t+=
-    //   })
-    //   return t.toFixed(2);
-    // }
+    total:function (){
+      let t=0;
+      this.$store.state.products.forEach(r=>{
+        // console.log(r.ventas);
+        // if (r.ventas.length==1){
+        // console.log(r.ventas[0].total);
+        t+= parseFloat(r.precio)*parseFloat(r.cantidad);
+        // }
+        // t+=
+      })
+      return t.toFixed(2);
+    }
   }
 }
 </script>

@@ -10,7 +10,6 @@
             type="date"
             v-model="fecha2"
             hint="Ingrese la fecha"
-            
         /></div>
   <div class="row">
 
@@ -110,7 +109,7 @@ import { date } from 'quasar';
 
         buscarlibro(){
           console.log(this.fecha2);
-        //if(this.fecha2=='' || this.fecha2==null){  
+        //if(this.fecha2=='' || this.fecha2==null){
           // console.log(this.fecha);
         this.$axios.post(process.env.URL+'/libro', {anio:this.fecha1.anio,mes:this.fecha1.mes.value}).then(res=>{
           console.log(res.data);

@@ -1,19 +1,23 @@
 <template>
   <div class="q-pa-md">
       <q-form
-      @submit.Enter.prevent="buscar"      
+      @submit.Enter.prevent="buscar"
       >
       <div class="row" >
-      <q-input
-        filled
-        type="date"
-        v-model="fecha"
-        label="Fecha de Venta"
-        lazy-rules
-              :rules="[ val => val && val.length > 0 || 'Por favor ingresa la fecha']"
-      />
-      <q-btn label="Buscar" type="submit" color="primary" icon="search"/>
-    </div>
+        <div class="col-4">
+          <q-input
+            filled
+            type="date"
+            v-model="fecha"
+            label="Fecha de Venta"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Por favor ingresa la fecha']"
+          />
+        </div>
+        <div class="col-4">
+          <q-btn label="Buscar" type="submit" color="primary" icon="search"/>
+        </div>
+      </div>
       </q-form>
     <q-table
       title="Listado"
@@ -27,7 +31,7 @@
           </template>
 
     </q-table>
-    
+
     <q-dialog v-model="dialog_mod">
       <q-card>
         <q-card-section class="bg-green-14 text-white">
@@ -103,7 +107,7 @@
                     <q-td key="nombreproducto" :props="props">
                         {{ props.row.nombreproducto }}
                     </q-td>
-                
+
                     <q-td key="cantidad" :props="props">
                         {{ props.row.cantidad }}
                     </q-td>
@@ -136,7 +140,7 @@
         <q-card-actions align="center">
           <q-form
           @submit="onAnular"
-          >       
+          >
           <q-input
               v-model="motivo"
               type="text"
@@ -145,7 +149,7 @@
               :rules="[ val => val && val.length > 3 || 'Ingrese el nombre']"
 
             />
-          
+
           <q-btn type="submit" flat label="Anular" color="deep-orange"/>
           </q-form>
           <q-btn flat label="Cancelar" color="primary" v-close-popup />
@@ -158,8 +162,9 @@
 </template>
 
 <script>
+import {date} from 'quasar'
 export default {
-  
+
   data () {
     return {
       alert: false,
@@ -184,7 +189,7 @@ export default {
           field: row => row.id,
           // format: val => `${val}`,
           sortable: true
-        },  
+        },
         { name: 'nrocomprobante', align: 'center', label: 'NroComprobante', field: 'nrocomprobante', sortable: true },
         { name: 'fecha', align: 'center', label: 'Fecha', field: 'fecha', sortable: true },
         { name: 'cliente', label: 'Cliente', field: row=> row.client.nombrerazon, sortable: true },
@@ -202,7 +207,7 @@ export default {
           align: 'left',
           field: 'nombreproducto',
           // format: val => `${val}`,
-        },  
+        },
         { name: 'cantidad', align: 'center', label: 'cantidad', field: 'cantidad' },
         { name: 'precio', label: 'precio', field: 'precio'},
         { name: 'subtotal', label: 'subtotal', field: 'subtotal' },
@@ -212,7 +217,7 @@ export default {
   },
   created() {
       this.fecha=date.formatDate(Date(),'YYYY-MM-DD');
-    
+
   },
   methods:{
     buscar(){

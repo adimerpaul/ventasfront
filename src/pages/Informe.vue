@@ -1,28 +1,32 @@
 <template>
     <div class="q-pa-md">
-        <div class="row">
-            <q-form
-            @submit="buscar">
-                <q-input
-                type="date"
-                label="Fecha inicial"
-                v-model="fecha.ini"
-                lazy-rules
-                :rules="[ val => val && val.length > 0 || 'Por favor ingresa la fecha']"
-                />
-                
-                <q-input
-                type="date"
-                label="Fecha final"
-                v-model="fecha.fin"
-                lazy-rules
-                :rules="[ val => val>=this.fecha.ini && val.length > 0 || 'Por favor ingresa la fecha']"
-                />
-                <q-btn label="Generar" type="submit" color="primary"/>
-            </q-form>
 
+    <q-form @submit="buscar">
+      <div class="row">
+        <div class="col-4">
+        <q-input
+        type="date"
+        label="Fecha inicial"
+        v-model="fecha.ini"
+        lazy-rules
+        :rules="[ val => val && val.length > 0 || 'Por favor ingresa la fecha']"
+        />
+        </div>
+        <div class="col-4">
+          <q-input
+            type="date"
+            label="Fecha final"
+            v-model="fecha.fin"
+            lazy-rules
+            :rules="[ val => val>=this.fecha.ini && val.length > 0 || 'Por favor ingresa la fecha']"
+          />
+        </div>
+        <div class="col-4">
+          <q-btn label="Generar" type="submit" color="primary" icon="send"/>
         </div>
 
+      </div>
+    </q-form>
   <q-card class="bg-white q-pa-none full-width">
     <q-card-section class="bg-blue-grey-8">
       <div class="row items-center no-wrap">
@@ -34,10 +38,11 @@
     <q-card-section>
       <canvas id="bar-chart"></canvas>
     </q-card-section>
-  </q-card> 
+  </q-card>
     </div>
 </template>
 <script>
+import {date} from 'quasar'
     import Chart from "chart.js";
      export default {
   data() {
@@ -48,7 +53,7 @@
     }
     },
    mounted () {
-    
+
   },
   created()
   {
@@ -65,7 +70,7 @@
             res.data.forEach(de => {
               this.producto.push(de.nombreproducto);
               this.cantidad.push(de.cant);
-              
+
             });
             this.createChart('bar-chart');
 

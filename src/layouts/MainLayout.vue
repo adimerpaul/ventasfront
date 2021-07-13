@@ -15,7 +15,7 @@
           {{$store.state.user.name}}
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>Sabor peru oruro</div>
       </q-toolbar>
     </q-header>
 
@@ -115,7 +115,7 @@
           to="/deliveri"
           exact
           v-if="$store.state.menudeliveri"
-          
+
           >
           <q-item-section
             avatar
@@ -165,9 +165,9 @@
           </q-item-section>
 
           <q-item-section>
-            <q-item-label>Venta</q-item-label>
+            <q-item-label>Venta Sabor Peru</q-item-label>
             <q-item-label caption>
-              Venta de productos
+              Ventas sabor peru
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -208,7 +208,7 @@
           <q-item-section>
             <q-item-label>Listado Deliveri</q-item-label>
             <q-item-label caption>
-              Reporte por cobrar 
+              Reporte por cobrar
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -216,7 +216,9 @@
         <q-item
           clickable
           to="/resumen"
-          exact>
+          exact
+          v-if="$store.state.boolresumendia"
+        >
           <q-item-section
             avatar
           >
@@ -226,7 +228,7 @@
           <q-item-section>
             <q-item-label>Resumen Dia</q-item-label>
             <q-item-label caption>
-              Reporte de Ventas 
+              Reporte de Ventas
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -235,6 +237,7 @@
         <q-item
           clickable
           to="/informe"
+          v-if="$store.state.boolgraficaproducto"
           exact>
           <q-item-section
             avatar
@@ -245,7 +248,7 @@
           <q-item-section>
             <q-item-label>Grafica Producto</q-item-label>
             <q-item-label caption>
-              Reporte de Productos 
+              Reporte de Productos
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -265,7 +268,7 @@
           <q-item-section>
             <q-item-label>Libro IVA</q-item-label>
             <q-item-label caption>
-              Listado de Facturas 
+              Listado de Facturas
             </q-item-label>
           </q-item-section>
         </q-item>

@@ -30,6 +30,7 @@
                 v-model="password"
                 label="Password *"
                 hint="Contraseña "
+                type="password"
                 lazy-rules
                 :rules="[ val => val && val.length > 0 || 'Please type something']"
               />
@@ -94,7 +95,15 @@ export default {
           this.$q.loading.hide()
           this.$router.push('/')
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          this.$q.loading.hide()
+          // console.log(err.response)
+          this.$q.notify({
+            message:err.response.data.res,
+            color:'red',
+            icon:'error'
+          })
+        })
     },
     onReset(){
       this.email=null;
