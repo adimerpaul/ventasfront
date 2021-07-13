@@ -245,7 +245,7 @@ export default {
       fileData.append('imagen', this.file_path)
       // console.log(fileData);
       //Replace http://localhost:8000 with your API URL
-      const uploadFile = this.$axios.post('http://localhost:8000/api/upload', fileData, {
+      const uploadFile = this.$axios.post(process.env.URL+'/upload', fileData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
