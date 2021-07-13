@@ -86,8 +86,8 @@ export default new Vuex.Store({
       state.menureporte=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 24)!=undefined
       state.menudeliveri=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 25)!=undefined
       state.modificardeliveri=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 26)!=undefined
-      state.boolresumendia=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 26)!=undefined
-      state.boolgraficaproducto=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 26)!=undefined
+      state.boolresumendia=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 27)!=undefined
+      state.boolgraficaproducto=dat.user.usuariopermisos.find( permiso => permiso.permiso_id === 28)!=undefined
     },
     auth_error(state){
       state.status = 'error'

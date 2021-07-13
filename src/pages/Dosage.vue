@@ -297,7 +297,7 @@ export default {
     },
     onMod(){
         this.$q.loading.show();
-        this.dato2.nrofactura=this.dato2.nrofactini;
+        //this.dato2.nrofactura=this.dato2.nrofactini;
 
         this.$axios.put(process.env.URL+'/dosage/'+this.dato2.id,this.dato2).then(res=>{
          this.$q.notify({
@@ -321,8 +321,6 @@ export default {
         this.dialog_del=false;
         this.misdatos();})
     },
-
-  
 
     onReset () {
       this.dato.nombre = null;
