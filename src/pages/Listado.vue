@@ -26,7 +26,7 @@
     >
     <template v-slot:body-cell-opcion="props">
             <q-td :props="props">
-              <q-btn v-if="$store.state.anularventa" dense round flat color="green" @click="editRow(props)" icon="receipt_list"></q-btn>
+              <q-btn v-if="$store.state.anularventa"  color="green" @click="editRow(props)" icon="receipt"></q-btn>
             </q-td>
           </template>
 
@@ -73,6 +73,12 @@
               v-model="dato2.client['nombrerazon']"
               type="text"
               label="Cliente"
+              readonly
+            />
+            <q-input
+              v-model="dato2.client['cinit']"
+              type="text"
+              label="CI/NIT"
               readonly
             />
           </div>

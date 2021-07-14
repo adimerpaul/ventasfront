@@ -6,7 +6,7 @@
         >
         <div style="width:40%">
         <q-input
-            label="Fecha"
+            
             type="date"
             v-model="fecha2"
             hint="Ingrese la fecha"

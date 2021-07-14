@@ -95,12 +95,12 @@
 <!--              {{ props.row.color }}-->
 <!--            </q-badge>-->
 <!--          </q-td>-->
-          <q-td key="imagen" :props="props">
-<!--            <q-badge color="purple">-->
-          <div :style="'background: '+props.row.color">
-            <img :src="url+'/../imagenes/'+props.row.imagen"  width="50">
-          </div>
-
+          
+          <q-td key="imagen" :props="props"  width='200'>
+            <!--            <q-badge color="purple">-->
+            <div :style="'background: '+props.row.color" style="border-radius: 25px;">
+              <img :src="url+'/../imagenes/'+props.row.imagen"  width="100" height="100">
+            </div>
 <!--            </q-badge>-->
           </q-td>
           <q-td key="products" :props="props">

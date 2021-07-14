@@ -47,7 +47,7 @@
     >
     <template v-slot:body-cell-opcion="props">
             <q-td :props="props">
-              <q-btn v-if="$store.state.anularventa" dense round flat color="green" @click="editRow(props)" icon="receipt_list"></q-btn>
+              <q-btn v-if="$store.state.anularventa" dense round flat color="green" @click="editRow(props)" icon="receipt"></q-btn>
             </q-td>
           </template>
 
