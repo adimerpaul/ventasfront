@@ -118,6 +118,8 @@
           </q-td>
           <q-td key="opcion" :props="props">
             <q-btn dense round flat color="green" @click="addRow(props)" icon="add"></q-btn>
+            <q-btn dense round flat color="red" @click="substractRow(props)" icon="remove"></q-btn>
+            <q-btn dense round flat color="yellow" @click="verRow(props)" icon="list"></q-btn>
             <q-btn v-if="$store.state.modificarproducto" dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
             <q-btn v-if="$store.state.eliminarproducto" dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
           </q-td>
@@ -258,10 +260,68 @@
             </div>
           </q-form>
         </q-card-section>
-
-
       </q-card>
     </q-dialog>
+
+
+<q-dialog v-model="dialog_sub">
+      <q-card>
+        <q-card-section class="bg-amber-14 text-white">
+          <div class="text-h6">Corregir cantidad Producto</div>
+        </q-card-section>
+        <q-card-section class="q-pt-xs">
+          <q-form
+            @submit="onSub"
+            class="q-gutter-md"
+          >
+            <q-input
+              filled
+              v-model="dato2.nombre"
+              type="text"
+              label="Nombre"
+              readonly
+            />
+
+            <q-input
+              filled
+              v-model="disminuir"
+              label="Cantidad a Retirar"
+              type="number"
+              lazy-rules
+              :rules="[ val => val>0 && val < 500 || 'Por favor Valor']"
+            />
+
+             <div>
+              <q-btn label="Corregir" type="submit" color="red" icon="remove_circle"/>
+            </div>
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+<q-dialog v-model="dialog_ver">
+      <q-card>
+        <q-card-section class="bg-amber-14 text-white">
+          <div class="text-h6">Log Cambios Cantidad</div>
+        </q-card-section>
+        <q-card-section class="q-pt-xs">
+            <q-input
+              filled
+              v-model="dato2.nombre"
+              type="text"
+              label="Nombre"
+              readonly
+            />
+      <q-table
+      title="Log Cantidad Productos"
+      :data="prod2"
+      :columns="columns2" />
+
+
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
 
     <q-dialog v-model="dialog_del" >
       <q-card>
@@ -290,14 +350,18 @@ export default {
       dialog_mod:false,
       dialog_del:false,
       dialog_add:false,
+      dialog_sub:false,
+      dialog_ver:false,
       name: null,
       age: null,
       accept: false,
       dato:{},
       dato2:{},
+      modprod:{},
       options:[],
       props:[],
       agregar:0,
+      disminuir:0,
       columns: [
         {
           name: 'nombre',
@@ -308,27 +372,31 @@ export default {
           // format: val => `${val}`,
           sortable: true
         },
-        // { name: 'color', label: 'Imagen', field: 'imagen', sortable: true },
-        // { name: 'precio', align: 'center', label: 'Precio', field: 'precio', sortable: true },
-        //{ name: 'rubro.nombre', align: 'center', label: 'Rubro', field: 'rubro.nombre}', sortable: true },
         { name: 'imagen', align: 'center', label: 'Imagen', field: 'color', sortable: true },
         { name: 'cantidad', align: 'right', label: 'Stock', field: 'cantidad', sortable: true },
         { name: 'precio', align: 'right', label: 'Precio', field: 'precio', sortable: true },
         { name: 'rubro', align: 'center', label: 'Rubro', field: 'rubro', sortable: true },
         { name: 'opcion', label: 'Opcion', field:'action',  sortable: false },
 
-        // { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-        // { name: 'protein', label: 'Protein (g)', field: 'protein' },
-        // { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        // { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        // { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+      ],
+      columns2: [
+        {
+          name: 'cantidad',
+          required: true,
+          label: 'cantidad',
+          align: 'left',
+          field: row => row.cantidad,
+          // format: val => `${val}`,
+          sortable: true
+        },
+        { name: 'detalle', align: 'center', label: 'detalle', field: 'detalle', sortable: true },
+        { name: 'fecha', align: 'right', label: 'fecha', field: 'fecha', sortable: true },
+        { name: 'nombre', align: 'right', label: 'nombre', field: 'name', sortable: true },
+
       ],
       data: [
-        // {
-        //   nombre: 'Frozen Yogurt',
-        //   color: 'red',
-        //   imagen:'1.png'
-        // }
+      ],
+      prod2: [
       ]
     }
   },
@@ -404,13 +472,22 @@ export default {
         this.dato2= producto.row;
         this.dialog_add=true;
     },
-
-
+    substractRow(producto){
+        this.dato2= producto.row;
+        this.dialog_sub=true;
+    },
+    verRow(producto){
+        this.dato2= producto.row;
+        this.$axios.post(process.env.URL+'/verdatos',this.dato2).then(res=>{
+          console.log(res.data);
+          this.prod2=res.data;
+        });
+        this.dialog_ver=true;
+    },
     onSubmit () {
       this.$q.loading.show();
 
       this.$axios.post(process.env.URL+'/product', this.dato).then(res=>{
-        console.log(res.data);
         this.$q.notify({
           color: 'green-4',
           textColor: 'white',
@@ -449,8 +526,8 @@ export default {
     },
     onAdd(){
         this.$q.loading.show();
-        this.dato2.cantidad+=parseInt(this.agregar);
-        this.$axios.post(process.env.URL+'/productadd',this.dato2).then(res=>{
+        this.modprod={id:this.dato2.id,cantidad:this.agregar}
+        this.$axios.post(process.env.URL+'/productadd',this.modprod).then(res=>{
          this.$q.notify({
           color: 'green-4',
           textColor: 'white',
@@ -462,6 +539,21 @@ export default {
         this.misdatos();})
     },
 
+
+onSub(){
+        this.$q.loading.show();
+        this.modprod={id:this.dato2.id,cantidad:this.disminuir};
+        this.$axios.post(process.env.URL+'/productsub',this.modprod).then(res=>{
+         this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Agregado correctamente'
+        });
+        this.dialog_sub=false;
+        this.disminuir=0; 
+        this.misdatos();})
+    }, 
 
     onReset () {
       this.dato.nombre = null;
