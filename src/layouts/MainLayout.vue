@@ -15,7 +15,8 @@
           {{$store.state.user.name}}
         </q-toolbar-title>
 
-        <div>Sabor peru oruro</div>
+        <div>SABOR PERU ORURO &nbsp;&nbsp;</div><br>
+        <q-btn @click="logout" v-if="$store.getters.isLoggedIn" label="salir" color="red" />
       </q-toolbar>
     </q-header>
 
