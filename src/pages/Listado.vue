@@ -27,7 +27,9 @@
     <template v-slot:body-cell-opcion="props">
             <q-td :props="props">
               <q-btn v-if="$store.state.anularventa"  color="green" @click="editRow(props)" icon="receipt"></q-btn>
-            </q-td>
+              <q-btn v-if="props.row.tipo=='F' && props.row.estado=='ACTIVO'" label="Factura"  color="yellow" @click="factRow(props)" icon="receipt"></q-btn>
+              <q-btn v-if="props.row.estado=='ACTIVO'" label="Comanda"  color="yellow" @click="comandaRow(props)" icon="receipt"></q-btn>
+              </q-td>
           </template>
 
     </q-table>
@@ -128,7 +130,8 @@
 
                 </q-table>
             <div>
-                <q-btn label="Anular" type="submit" color="red" icon="undo"/>
+                <q-btn v-if="dato2.estado=='ACTIVO'" label="Anular" type="submit" color="red" icon="undo"/>
+                
                 <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
             </div>
           </q-form>
@@ -240,8 +243,37 @@ export default {
     },
     delRow(){
         this.dialog_del=true;
-
     },
+    factRow(producto){
+        this.dato2= producto.row;
+        this.$axios.get(process.env.URL+'/factura/'+this.dato2.id).then(res=>{
+            let myWindow = window.open("", "Imprimir", "width=200,height=100");
+            myWindow.document.write(res.data);
+            myWindow.document.close();
+            myWindow.focus();
+            setTimeout(function(){
+              myWindow.print();
+              myWindow.close();
+              // impDetalle(response);
+              //    impAniv(response);
+            },500);
+            })
+    },
+    comandaRow(producto){
+      this.dato2= producto.row;
+        this.$axios.get(process.env.URL+'/comanda/'+this.dato2.id).then(res=>{
+            let myWindow = window.open("", "Imprimir", "width=200,height=100");
+            myWindow.document.write(res.data);
+            myWindow.document.close();
+            myWindow.focus();
+            setTimeout(function(){
+              myWindow.print();
+              myWindow.close();
+              // impDetalle(response);
+              //    impAniv(response);
+            },500);})
+    },
+
     onAnular () {
           this.dato3.user_id=this.$store.state.user.id;
           this.dato3.motivo=this.motivo;

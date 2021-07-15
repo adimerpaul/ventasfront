@@ -53,6 +53,16 @@
 
     </q-table>
     
+    <div class="row justify-end">
+
+    <q-input
+    label="Total"
+    v-model="total"
+    readonly
+    input-style="font-size: 35px; width:20%; color:red"
+    type="text"
+    />
+    </div>
     <q-dialog v-model="dialog_mod">
       <q-card>
         <q-card-section class="bg-green-14 text-white">
@@ -171,6 +181,7 @@ export default {
       props:[],
       options2:[],
       motivo:'',
+      total:0,
       fecha1:{anio:date.formatDate(Date(),'YYYY')},
             options:[{label:"Enero",value:'01'},
             {label:"Febrero",value:'02'},
@@ -234,10 +245,16 @@ export default {
   },
   methods:{
     buscar(){
+      this.total=0;
         this.fecha={anio:this.fecha1.anio,mes:this.fecha1.mes.value,deliveri:this.fecha1.deliveri};
+        console.log(this.fecha);
         this.$axios.post(process.env.URL+'/listabuscar2',this.fecha).then(res=>{
             console.log(res.data);
             this.data=res.data;
+            res.data.forEach(element => {
+              this.total+=element.total;
+            });
+
         });
 
     },
