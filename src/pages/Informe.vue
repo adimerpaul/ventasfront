@@ -57,8 +57,7 @@ import {date} from 'quasar'
   },
   created()
   {
-      this.fecha.ini=date.formatDate(Date(),'YYYY-MM-DD');
-      this.fecha.fin=date.formatDate(Date(),'YYYY-MM-DD');
+      this.fecha={ini:date.formatDate(Date(),'YYYY-MM-DD'),fin:date.formatDate(Date(),'YYYY-MM-DD')};
   },
   methods: {
       buscar(){
@@ -70,6 +69,7 @@ import {date} from 'quasar'
             res.data.forEach(de => {
               this.producto.push(de.nombreproducto);
               this.cantidad.push(de.cant);
+              this.color.push(de.color);
 
             });
             this.createChart('bar-chart');
@@ -85,7 +85,8 @@ import {date} from 'quasar'
           datasets: [
             {
               label: 'Producto (cantidad)',
-              //backgroundColor: ['red','yellow','green','blue','orange','Chocolate','LightCyan],
+              backgroundColor: this.color,
+              //['red','yellow','green','blue','orange','Chocolate','LightCyan'],
               data: this.cantidad
             }
           ]

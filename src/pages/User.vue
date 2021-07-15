@@ -16,7 +16,7 @@
               filled
               v-model="dato.name"
               type="text"
-              label="Nombre"
+              label="Nombre Completo"
               hint="Ingresar nombre"
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa datos']"
@@ -104,7 +104,7 @@
               filled
               v-model="dato2.name"
               type="text"
-              label="Nombre"
+              label="Nombre Completo"
               hint="Ingresar nombre"
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa datos']"
