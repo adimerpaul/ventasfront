@@ -125,9 +125,9 @@
           </q-item-section>
 
           <q-item-section>
-            <q-item-label>Deliveries</q-item-label>
+            <q-item-label>Delivery</q-item-label>
             <q-item-label caption>
-              Lista de Deliveries
+              Lista de Delivery
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -207,7 +207,7 @@
           </q-item-section>
 
           <q-item-section>
-            <q-item-label>Listado Deliveri</q-item-label>
+            <q-item-label>Listado Delivery</q-item-label>
             <q-item-label caption>
               Reporte por cobrar
             </q-item-label>

@@ -1,43 +1,44 @@
 <template>
   <div class="q-pa-md">
       <q-form
-      @submit.Enter.prevent="buscar"      
+      @submit.Enter.prevent="buscar"
       >
       <div class="row" >
-      <div style="width:20%">
-
-        <q-select
+        <div class="col-3 q-pa-md">
+          <q-select
             label="Mes"
             hint="Seleccione Mes"
             v-model="fecha1.mes"
             :options="options"
             lazy-rules
-              :rules="[ val =>  val!='' || 'Ingrese el mes']"
-        />
-
-        <q-select
+            :rules="[ val =>  val!='' || 'Ingrese el mes']"
+          />
+        </div>
+        <div class="col-3 q-pa-md">
+          <q-select
             label="Deliveri"
             hint="Seleccione Deliveri"
             v-model="fecha1.deliveri"
             :options="options2"
             lazy-rules
-              :rules="[ val =>  val!='' || 'Ingrese el deliveri']"
-        />
-        
-      </div>
-      <div style="width:30%">
-        <q-input
+            :rules="[ val =>  val!='' || 'Ingrese el deliveri']"
+          />
+        </div>
+        <div class="col-3 q-pa-md">
+          <q-input
             label="Anio"
             v-model="fecha1.anio"
             type="number"
             min=1000
             max=9999
             lazy-rules
-              :rules="[ val => val>1000 && val<9999 && val.length >=4 || 'Ingrese el anio']"
+            :rules="[ val => val>1000 && val<9999 && val.length >=4 || 'Ingrese el anio']"
 
-        />
+          />
         </div>
-      <q-btn label="Buscar" type="submit" color="primary" icon="search"/>
+        <div class="col-3 q-pa-md">
+          <q-btn label="Buscar" type="submit" color="primary" icon="search" class="full-height full-width"/>
+        </div>
     </div>
       </q-form>
     <q-table
@@ -52,7 +53,7 @@
           </template>
 
     </q-table>
-    
+
     <div class="row justify-end">
 
     <q-input
@@ -137,7 +138,7 @@
                     <q-td key="nombreproducto" :props="props">
                         {{ props.row.nombreproducto }}
                     </q-td>
-                
+
                     <q-td key="cantidad" :props="props">
                         {{ props.row.cantidad }}
                     </q-td>
@@ -164,9 +165,28 @@
 </template>
 
 <script>
+var $  = require( 'jquery' );
+// // var dt = require( 'datatables.net' )( window, $ );
+// require( 'jszip' );
+// require( 'pdfmake' );
+// require( 'datatables.net-dt' )();
+// require( 'datatables.net-buttons-dt' )();
+// require( 'datatables.net-buttons/js/buttons.colVis.js' )();
+// import datatable from 'datatables.net-buttons-bs4'
+require( 'datatables.net-buttons/js/buttons.html5.js' )();
+require( 'datatables.net-buttons/js/buttons.print.js' )();
+require('datatables.net-buttons/js/dataTables.buttons');
+require('datatables.net-dt/css/jquery.dataTables.min.css');
+import print from 'datatables.net-buttons/js/buttons.print';
+import jszip from 'jszip/dist/jszip';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs=pdfFonts.pdfMake.vfs;
+window.JSZip=jszip;
+
 import { date } from 'quasar';
 export default {
-  
+
   data () {
     return {
       alert: false,
@@ -205,7 +225,7 @@ export default {
           field: row => row.id,
           // format: val => `${val}`,
           sortable: true
-        },  
+        },
         { name: 'nrocomprobante', align: 'center', label: 'NroComprobante', field: 'nrocomprobante', sortable: true },
         { name: 'fecha', align: 'center', label: 'Fecha', field: 'fecha', sortable: true },
         { name: 'cliente', label: 'Cliente', field: row=> row.client.nombrerazon, sortable: true },
@@ -223,7 +243,7 @@ export default {
           align: 'left',
           field: 'nombreproducto',
           // format: val => `${val}`,
-        },  
+        },
         { name: 'cantidad', align: 'center', label: 'cantidad', field: 'cantidad' },
         { name: 'precio', label: 'precio', field: 'precio'},
         { name: 'subtotal', label: 'subtotal', field: 'subtotal' },
@@ -239,7 +259,7 @@ export default {
             console.log(res.data);
             res.data.forEach(de => {
               this.options2.push(de.nombre);
-              
+
             });
         });
   },

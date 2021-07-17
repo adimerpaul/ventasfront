@@ -95,7 +95,7 @@
 <!--              {{ props.row.color }}-->
 <!--            </q-badge>-->
 <!--          </q-td>-->
-          
+
           <q-td key="imagen" :props="props"  width='200'>
             <!--            <q-badge color="purple">-->
             <div :style="'background: '+props.row.color" style="border-radius: 25px;">
@@ -114,11 +114,14 @@
           </q-td>
           <q-td key="opcion" :props="props">
               <q-btn v-if="$store.state.modificarrubro" dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
+              <q-btn v-if="$store.state.modificarrubro" dense round flat color="info" @click="editImg(props)" icon="photo"></q-btn>
               <q-btn v-if="$store.state.eliminarrubro" dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
           </q-td>
         </q-tr>
       </template>
     </q-table>
+
+
 
     <q-dialog v-model="dialog_mod">
       <q-card>
@@ -153,20 +156,37 @@
                 </q-icon>
               </template>
             </q-input>
-
-<!--            <q-toggle v-model="accept" label="I accept the license and terms" />-->
-
             <div>
               <q-btn label="Modificar" type="submit" color="warning" icon="edit"/>
-<!--              <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />-->
-<!--              <q-card-actions align="right">-->
                 <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
-<!--              </q-card-actions>-->
             </div>
           </q-form>
         </q-card-section>
-
-
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="dialog_img">
+      <q-card>
+        <q-card-section class="bg-amber-14 text-white">
+          <div class="text-h6"><q-icon name="edit"/>Modificar imagen</div>
+        </q-card-section>
+        <q-card-section class="q-pt-xs">
+          <q-form
+            @submit="onMod"
+            class="q-gutter-md"
+          >
+            <q-uploader
+              style="max-width: 300px"
+              label="Main Image"
+              :factory="uploadFile2"
+              max-files="1"
+              accept=".jpg,.png, image/*"
+            />
+            <div>
+              <q-btn label="Modificar" type="submit" color="warning" icon="edit"/>
+              <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
+            </div>
+          </q-form>
+        </q-card-section>
       </q-card>
     </q-dialog>
 
@@ -185,7 +205,6 @@
     </q-dialog>
 
 
-
   </div>
 </template>
 
@@ -194,6 +213,7 @@ export default {
   data () {
     return {
       alert: false,
+
       url: process.env.URL,
       file_path : null,
       name: null,
@@ -202,6 +222,7 @@ export default {
       dato:{},
       dato2:{},
       dialog_mod:false,
+      dialog_img:false,
       dialog_del:false,
       props:[],
       columns: [
@@ -252,6 +273,33 @@ export default {
       }).then((response) => {
         // console.log(response.data);
         this.dato.imagen=response.data;
+        this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Imagen subido correctamente!'
+        });
+        // Notify plugin needs to be installed
+        // https://quasar.dev/quasar-plugins/notify#Installation
+        // this.$q.notify({
+        //   type: 'possitive',
+        //   message: `Image Uploaded`
+        // })
+      });
+    },
+    uploadFile2(files) {
+      this.file_path = files[0]
+      const fileData = new FormData()
+      fileData.append('imagen', this.file_path)
+      // console.log(fileData);
+      //Replace http://localhost:8000 with your API URL
+      const uploadFile = this.$axios.post(process.env.URL+'/upload', fileData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((response) => {
+        // console.log(response.data);
+        this.dato2.imagen=response.data;
         this.$q.notify({
           color: 'green-4',
           textColor: 'white',
@@ -332,6 +380,11 @@ export default {
         this.dato2= rubro.row;
         this.dialog_mod=true;
     },
+    editImg(rubro){
+      // console.log(rubro.row);
+      this.dato2= rubro.row;
+      this.dialog_img=true;
+    },
     deleteRow(rubro){
         // console.log(rubro.row);
         this.dato2= rubro.row;
@@ -348,6 +401,7 @@ export default {
           message: 'Modificado correctamente'
         });
         this.dialog_mod=false;
+        this.dialog_img=false;
         this.misdatos();
         }).catch(err=>{
           this.$q.notify({

@@ -117,10 +117,11 @@
             <div class="text-h6">{{ props.row.rubro.nombre }}</div>
           </q-td>
           <q-td key="opcion" :props="props">
-            <q-btn dense round flat color="green" @click="addRow(props)" icon="add"></q-btn>
-            <q-btn dense round flat color="red" @click="substractRow(props)" icon="remove"></q-btn>
+            <q-btn v-if="$store.state.modificarproducto" dense round flat color="green" @click="addRow(props)" icon="add"></q-btn>
+            <q-btn v-if="$store.state.modificarproducto" dense round flat color="red" @click="substractRow(props)" icon="remove"></q-btn>
             <q-btn dense round flat color="yellow" @click="verRow(props)" icon="list"></q-btn>
             <q-btn v-if="$store.state.modificarproducto" dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
+            <q-btn v-if="$store.state.modificarproducto" dense round flat color="ingo" @click="editImg(props)" icon="photo"></q-btn>
             <q-btn v-if="$store.state.eliminarproducto" dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
           </q-td>
         </q-tr>
@@ -194,7 +195,7 @@
               <template v-slot:append>
                 <q-icon name="colorize" class="cursor-pointer">
                   <q-popup-proxy transition-show="scale" transition-hide="scale">
-                    <q-color v-model="dato.color" />
+                    <q-color v-model="dato2.color" />
                   </q-popup-proxy>
                 </q-icon>
               </template>
@@ -221,6 +222,34 @@
                 <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
 <!--              </q-card-actions>-->
             </div>
+          </q-form>
+        </q-card-section>
+
+
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="dialog_img">
+      <q-card>
+        <q-card-section class="bg-amber-14 text-white">
+          <div class="text-h6">Modificar imagen</div>
+        </q-card-section>
+        <q-card-section class="q-pt-xs">
+          <q-form
+            @submit="onMod"
+            class="q-gutter-md"
+          >
+            <q-uploader
+              style="max-width: 300px"
+              label="Main Image"
+              :factory="uploadFile2"
+              max-files="1"
+              accept=".jpg,.png, image/*"
+            />
+            <div>
+              <q-btn label="Modificar" type="submit" color="positive" icon="add_circle"/>
+              <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
+            </div>
+
           </q-form>
         </q-card-section>
 
@@ -337,17 +366,38 @@
       </q-card>
     </q-dialog>
 
+    <q-form @submit.prevent="historialplato">
+      <div class="row">
+        <div class="col-4 q-pa-md">
+          <q-input label="Fecha inicio" v-model="fecha.inicio"/>
+        </div>
+        <div class="col-4 q-pa-md">
+          <q-input label="Fecha fin" v-model="fecha.fin"/>
+        </div>
+        <div class="col-4 q-pa-md">
+          <q-btn type="submit" label="Imprimir" icon="send" class="full-width full-height" color="secondary"/>
+        </div>
+      </div>
+    </q-form>
+
   </div>
 
 </template>
 
 <script>
+import {date} from "quasar";
+
 export default {
   data () {
     return {
       url:process.env.URL,
+      fecha:{
+        inicio:date.formatDate(Date.now(),'YYYY-MM-DD'),
+        fin:date.formatDate(Date.now(),'YYYY-MM-DD'),
+      },
       alert: false,
       dialog_mod:false,
+      dialog_img:false,
       dialog_del:false,
       dialog_add:false,
       dialog_sub:false,
@@ -432,12 +482,54 @@ export default {
         // })
       });
     },
+    uploadFile2(files) {
+      this.file_path = files[0]
+      const fileData = new FormData()
+      fileData.append('imagen', this.file_path)
+      // console.log(fileData);
+      //Replace http://localhost:8000 with your API URL
+      const uploadFile = this.$axios.post(process.env.URL+'/upload', fileData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((response) => {
+        // console.log(response.data);
+        this.dato2.imagen=response.data;
+        this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Imagen subido correctamente!'
+        });
+        // Notify plugin needs to be installed
+        // https://quasar.dev/quasar-plugins/notify#Installation
+        // this.$q.notify({
+        //   type: 'possitive',
+        //   message: `Image Uploaded`
+        // })
+      });
+    },
     onRejected (rejectedEntries) {
       // Notify plugin needs to be installed
       // https://quasar.dev/quasar-plugins/notify#Installation
       this.$q.notify({
         type: 'negative',
         message: `${rejectedEntries.length} file(s) did not pass validation constraints`
+      })
+    },
+    historialplato(){
+      this.$axios.post(process.env.URL+'/logproducto',this.fecha).then(res=>{
+        // console.log(res.data)
+        let myWindow = window.open("", "Imprimir", "width=200,height=100");
+        myWindow.document.write(res.data);
+        myWindow.document.close();
+        myWindow.focus();
+        setTimeout(function(){
+          myWindow.print();
+          myWindow.close();
+          // impDetalle(response);
+          //    impAniv(response);
+        },500);
       })
     },
     misdatos(){
@@ -460,6 +552,11 @@ export default {
         // console.log(producto.row);
         this.dato2= producto.row;
         this.dialog_mod=true;
+    },
+    editImg(producto){
+      // console.log(producto.row);
+      this.dato2= producto.row;
+      this.dialog_img=true;
     },
     deleteRow(producto){
         // console.log(producto.row);
@@ -510,6 +607,7 @@ export default {
           message: 'Modificado correctamente'
         });
         this.dialog_mod=false;
+          this.dialog_img=false;
         this.misdatos();})
     },
     onDel(){
@@ -535,7 +633,7 @@ export default {
           message: 'Agregado correctamente'
         });
         this.dialog_add=false;
-        this.agregar=0; 
+        this.agregar=0;
         this.misdatos();})
     },
 
@@ -551,9 +649,9 @@ onSub(){
           message: 'Agregado correctamente'
         });
         this.dialog_sub=false;
-        this.disminuir=0; 
+        this.disminuir=0;
         this.misdatos();})
-    }, 
+    },
 
     onReset () {
       this.dato.nombre = null;
