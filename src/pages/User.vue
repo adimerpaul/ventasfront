@@ -39,18 +39,9 @@
               type="password"
               hint="Ingresar password"
               lazy-rules
-              :rules="[ val => val.length > 8 || 'Ingrese password']"
+              :rules="[ val => val.length >= 8 || 'Ingrese password']"
             />
 
-            <q-input
-              filled
-              v-model="verifica"
-              label="Verificacion password"
-              type="password"
-              hint="Ingresar password"
-              lazy-rules
-              :rules="[ val => val==dato.password || 'No es igual']"
-            />
             <h5>Permisos</h5>
             <div>
                     <q-option-group
@@ -172,17 +163,7 @@
               type="password"
               hint="Ingresar password"
               lazy-rules
-              :rules="[ val => val.length > 8 || 'Ingrese password']"
-            />
-
-            <q-input
-              filled
-              v-model="verifica"
-              label="Verificacion password"
-              type="password"
-              hint="Ingresar password"
-              lazy-rules
-              :rules="[ val => val==dato4.password || 'No es igual']"
+              :rules="[ val => val.length >= 8 || 'Ingrese password']"
             />
 
             <div>
@@ -217,7 +198,6 @@ export default {
       dato2:{group:[]},
       dato3:{},
       dato4:{},
-      verifica:'',
       options:[],
       props:[],
       columns: [
