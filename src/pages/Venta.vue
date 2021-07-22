@@ -116,6 +116,7 @@
                   <div class="row">
                     <div class="col-6">
                       <q-input
+                        required
                         @keyup="onkeyup"
                         filled
                         v-model="ci"
@@ -127,6 +128,7 @@
                     </div>
                     <div class="col-6">
                       <q-input
+                        required
                         filled
                         v-model="nombrerazon"
                         label="Nombre y razon *"
@@ -148,6 +150,7 @@
 <!--                    </div>-->
                     <div class="col-3 q-pa-xs">
                       <q-input
+                        required
                         filled
                         v-model="total"
                         label="Total*"
@@ -359,8 +362,10 @@ export default {
         this.$store.state.products=[]
         // console.log(res.data);
         // this.misrubros();
-        this.products=[];
-        this.rubros=[];
+        this.products=[]
+        this.rubros=[]
+        this.ci=''
+        this.recibido=''
         if (res.data.tipo=='F'){
           let sale_id=res.data.sale_id;
           this.$axios.get(process.env.URL+'/rubro').then(res=>{

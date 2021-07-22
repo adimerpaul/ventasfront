@@ -42,10 +42,10 @@
     v-model="total1"
     readonly
     input-style="font-size: 35px; width:20%; color:red;"
-    
+
     type="text"
     />
-  </div>  
+  </div>
     <q-table
       title="Productos"
       :data="filas2"
@@ -178,29 +178,29 @@ export default {
               //    impAniv(response);
             },500);
 
-            this.$axios.post(process.env.URL+'/imprimirresumendel/',this.dato1).then(res=>{
-            let myWindow = window.open("", "Imprimir", "width=200,height=100");
-            myWindow.document.write(res.data);
-            myWindow.document.close();
-            myWindow.focus();
-            setTimeout(function(){
-              myWindow.print();
-              myWindow.close();
-              // impDetalle(response);
-              //    impAniv(response);
-            },500);
-            
-
-        });
-        });
-
+            // this.$axios.post(process.env.URL+'/imprimirresumendel/',this.dato1).then(res=>{
+            // let myWindow = window.open("", "Imprimir", "width=200,height=100");
+            // myWindow.document.write(res.data);
+            // myWindow.document.close();
+            // myWindow.focus();
+            // setTimeout(function(){
+            //   myWindow.print();
+            //   myWindow.close();
+            //   // impDetalle(response);
+            //   //    impAniv(response);
+            // },500);
 
 
         });
+        });
+
+
 
         });
 
-         
+        });
+
+
     },
     }
 
