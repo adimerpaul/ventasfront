@@ -65,7 +65,7 @@
     <div class="col-12 col-md-4">
       <q-card>
         <q-card-section class="bg-accent text-white q-pa-xs">
-          <q-icon name="point_of_sale"></q-icon> Venta <q-btn @click="reset"  color="negative" size="xs" icon="restart_alt" label="cancelar"/><q-btn @click="icon = true;cambio=0;recibido=0"  color="positive" label="Venta" size="xs" icon="add_circle"/>
+          <q-icon name="point_of_sale"></q-icon> Venta <q-btn @click="reset"  color="negative" size="xs" icon="restart_alt" label="cancelar"/><q-btn @click="icon = true;"  color="positive" label="Venta" size="xs" icon="add_circle"/>
         </q-card-section>
         <q-card-section class="q-pa-xs">
           <table style="width: 100%;border: 1px solid black" >
@@ -123,7 +123,7 @@
                         label="CI / NIT *"
                         hint="Carnet o nit"
                         lazy-rules
-                        :rules="[ val => val && val.length > 0 || 'Please type something']"
+                        :rules="[ val => val && val.length > 0 || 'Dato obligatorio']"
                       />
                     </div>
                     <div class="col-6">
@@ -133,8 +133,9 @@
                         v-model="nombrerazon"
                         label="Nombre y razon *"
                         hint="Razon social"
+                        style="text-transform: uppercase"
                         lazy-rules
-                        :rules="[ val => val && val.length > 0 || 'Please type something']"
+                        :rules="[ val => val && val.length > 0 || 'Dato obligatorio']"
                       />
                     </div>
 <!--                    <div class="col-4">-->
@@ -163,6 +164,7 @@
                         v-model="recibido"
                         filled
                         label="Monto recibido"
+                        required
                       />
                     </div>
                     <div class="col-3 q-pa-xs">
@@ -207,8 +209,8 @@ export default {
       fecha:'2021-01-01',
       ci:'',
       nombrerazon:'',
-      recibido:0,
-      cambio:0,
+      recibido:'',
+      cambio:'',
       delivery:'',
       // total:'',
       options: [
@@ -365,7 +367,9 @@ export default {
         this.products=[]
         this.rubros=[]
         this.ci=''
+        this.nombrerazon=''
         this.recibido=''
+        this.cambio=''
         if (res.data.tipo=='F'){
           let sale_id=res.data.sale_id;
           this.$axios.get(process.env.URL+'/rubro').then(res=>{

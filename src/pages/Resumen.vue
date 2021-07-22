@@ -179,19 +179,17 @@ export default {
             },500);
 
             // this.$axios.post(process.env.URL+'/imprimirresumendel/',this.dato1).then(res=>{
-            // let myWindow = window.open("", "Imprimir", "width=200,height=100");
-            // myWindow.document.write(res.data);
-            // myWindow.document.close();
-            // myWindow.focus();
-            // setTimeout(function(){
-            //   myWindow.print();
-            //   myWindow.close();
-            //   // impDetalle(response);
-            //   //    impAniv(response);
-            // },500);
-
-
-        });
+            //     let myWindow = window.open("", "Imprimir", "width=200,height=100");
+            //     myWindow.document.write(res.data);
+            //     myWindow.document.close();
+            //     myWindow.focus();
+            //     setTimeout(function(){
+            //       myWindow.print();
+            //       myWindow.close();
+            //       // impDetalle(response);
+            //       //    impAniv(response);
+            //     },500);
+            // });
         });
 
 
