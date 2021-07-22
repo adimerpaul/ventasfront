@@ -179,7 +179,7 @@
                     </div>
                   </div>
                   <div>
-                    <q-btn label=" venta" icon="send" type="submit" color="positive"/>
+                    <q-btn label=" venta" icon="send" type="submit" color="positive" :disable="btn"/>
                     <q-btn label="Cerrar" type="button" size="md" icon="delete" color="negative" class="q-ml-sm" @click="icon=false" />
                   </div>
                 </q-form>
@@ -202,6 +202,7 @@ export default {
   name: "Venta",
   data(){
     return {
+      btn:false,
       rubros:[],
       products:[],
       url:process.env.URL,
@@ -331,7 +332,9 @@ export default {
       })
     },
     onsubmit(){
+      this.btn=true;
       // console.log('a');
+      this.$q.loading.show()
       let mc=this;
       if (this.ci=='' || this.ci==null){
         this.$q.notify({
@@ -340,6 +343,8 @@ export default {
           icon: 'warning',
           message: 'Tienes que colocar un cliente'
         })
+        this.$q.loading.hide()
+        this.btn=false
         return false;
       }
       if (this.total=='' || this.total==null|| parseFloat(this.total)==0){
@@ -349,8 +354,11 @@ export default {
           icon: 'warning',
           message: 'Tienes que Tener productos para realizar la venta'
         })
+        this.$q.loading.hide()
+        this.btn=false
         return false;
       }
+
       this.$axios.post(process.env.URL+'/sale',{
         total:this.total,
         monto:this.recibido,
@@ -360,6 +368,7 @@ export default {
         details:this.$store.state.products,
         fecha:this.fecha
       }).then(res=>{
+        this.btn=false
         this.icon=false
         this.$store.state.products=[]
         // console.log(res.data);
@@ -370,6 +379,7 @@ export default {
         this.nombrerazon=''
         this.recibido=''
         this.cambio=''
+        this.$q.loading.hide()
         if (res.data.tipo=='F'){
           let sale_id=res.data.sale_id;
           this.$axios.get(process.env.URL+'/rubro').then(res=>{
@@ -435,6 +445,8 @@ export default {
         // }
 
       }).catch(err=>{
+        this.btn=false
+        this.$q.loading.hide()
         //   this.alert=false;
             this.$q.notify({
               color: 'red-5',
