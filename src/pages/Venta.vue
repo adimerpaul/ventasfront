@@ -379,6 +379,7 @@ export default {
         this.nombrerazon=''
         this.recibido=''
         this.cambio=''
+        this.delivery=''
         this.$q.loading.hide()
         if (res.data.tipo=='F'){
           let sale_id=res.data.sale_id;
