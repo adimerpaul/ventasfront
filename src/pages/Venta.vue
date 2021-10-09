@@ -181,9 +181,17 @@
                     <div class="col-3">
                       <q-select v-model="delivery" :options="options" label="Delivery" />
                     </div>
+                    <div class="col-2"><q-checkbox @input="verificar" v-model="booltargeta"  label="Targeta"/></div>
+                    <template v-if="booltargeta">
+                    <div class="col-2"><q-input label="Codigo" v-model="codigo"  @keyup="consultartargeta"/></div>
+<!--                    <div class="col-2 flex flex-center"><q-btn  icon="refresh" color="teal" size="xs" @click="consultartargeta" label="consultar"/></div>-->
+                    <div class="col-2"><q-banner >Saldo {{nombresaldo.saldo}}</q-banner></div>
+<!--                      <div class="col-2 flex flex-center"><q-btn  icon="code" color="accent" size="xs" @click="rebaja" label="Dar rebaja"/></div>-->
+                    <div class="col-2"></div>
+                    </template>
                   </div>
                   <div>
-                    <q-btn label=" venta" icon="send" type="submit" color="positive" :disable="btn"/>
+                    <q-btn  label=" venta" icon="send" type="submit" color="positive" :disable="btn"/>
                     <q-btn label="Cerrar" type="button" size="md" icon="delete" color="negative" class="q-ml-sm" @click="icon=false" />
                   </div>
                 </q-form>
@@ -207,10 +215,14 @@ export default {
   data(){
     return {
       btn:false,
+      tienerebaja:false,
       rubros:[],
+      codigo:'',
+      nombresaldo:'',
+      booltargeta:false,
       products:[],
       url:process.env.URL,
-      icon:false,
+      icon:true,
       fecha:'2021-01-01',
       ci:'',
       nombrerazon:'',
@@ -237,6 +249,65 @@ export default {
 
   },
   methods:{
+    verificar(){
+      // console.log(this.booltargeta)
+      this.codigo=''
+      this.nombresaldo=''
+      if (!this.booltargeta){
+
+        if (this.tienerebaja){
+          this.$store.state.products.forEach(r=>{
+            r.precio=(1.25*r.precio).toFixed(2)
+            r.subtotal=(1.25*r.subtotal).toFixed(2)
+          })
+          this.btn=false
+          this.tienerebaja=false
+        }
+      }
+    },
+    consultartargeta(){
+      if (this.codigo!='' || this.codigo!=undefined){
+        this.$q.loading.show()
+        this.nombresaldo=''
+        if (this.tienerebaja){
+          this.$store.state.products.forEach(r=>{
+            r.precio=(1.25*r.precio).toFixed(2)
+            r.subtotal=(1.25*r.subtotal).toFixed(2)
+          })
+          this.btn=false
+          this.tienerebaja=false
+        }
+        this.$axios.get(process.env.URL+'/sale/'+this.codigo).then(res=>{
+          // console.log(res.data)
+          this.$q.loading.hide()
+          if (res.data=='0' || res.data==''){
+
+          }else{
+            this.nombresaldo=res.data
+            // console.log(res.data)
+            if (!this.tienerebaja){
+              this.$store.state.products.forEach(r=>{
+                r.precio=(0.8*r.precio).toFixed(2)
+                r.subtotal=(0.8*r.subtotal).toFixed(2)
+              })
+              this.tienerebaja=true
+              if ( parseFloat(this.total) < parseFloat(this.nombresaldo.saldo)){
+                this.btn=false
+              }else {
+                this.btn=true
+              }
+            }
+          }
+          // console.log(res.data);
+          // this.rubros=res.data;
+
+        })
+      }
+
+    },
+    rebaja(){
+
+    },
     misrubros() {
       this.rubros=[];
       this.$axios.get(process.env.URL+'/rubro').then(res=>{
