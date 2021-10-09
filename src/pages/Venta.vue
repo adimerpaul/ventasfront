@@ -454,8 +454,11 @@ export default {
         nombrerazon:this.nombrerazon,
         delivery:this.delivery,
         details:this.$store.state.products,
-        fecha:this.fecha
+        fecha:this.fecha,
+        codigo:this.codigo
       }).then(res=>{
+        this.booltargeta=false
+        this.codigo=''
         this.btn=false
         this.icon=false
         this.$store.state.products=[]
