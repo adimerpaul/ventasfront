@@ -222,7 +222,7 @@ export default {
       booltargeta:false,
       products:[],
       url:process.env.URL,
-      icon:true,
+      icon:false,
       fecha:'2021-01-01',
       ci:'',
       nombrerazon:'',
@@ -462,7 +462,7 @@ export default {
         this.btn=false
         this.icon=false
         this.$store.state.products=[]
-        // console.log(res.data);
+        console.log(res.data);
         // this.misrubros();
         this.products=[]
         this.rubros=[]
