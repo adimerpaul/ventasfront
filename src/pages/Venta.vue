@@ -29,7 +29,7 @@
               </div>
             </q-card-section>
           </q-card>
-        </div>
+-        </div>
 
         <div class="col-12">
           <q-card>
@@ -114,7 +114,7 @@
             <div class="row">
               <div class="col-12">
                 <q-form
-                  @submit="onsubmit"
+                  @submit.prevent="onsubmit"
                   class="q-gutter-md"
                 >
                   <div class="row">
@@ -185,7 +185,7 @@
                     <template v-if="booltargeta">
                     <div class="col-2"><q-input label="Codigo" v-model="codigo"  @keyup="consultartargeta"/></div>
 <!--                    <div class="col-2 flex flex-center"><q-btn  icon="refresh" color="teal" size="xs" @click="consultartargeta" label="consultar"/></div>-->
-                    <div class="col-2"><q-banner >Saldo {{nombresaldo.saldo}}</q-banner></div>
+                    <div class="col-2"><q-banner >Saldo Saldo :{{nombresaldo.saldo}} -- {{nombresaldo.nombre}}</q-banner></div>
 <!--                      <div class="col-2 flex flex-center"><q-btn  icon="code" color="accent" size="xs" @click="rebaja" label="Dar rebaja"/></div>-->
                     <div class="col-2"></div>
                     </template>
