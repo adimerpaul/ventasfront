@@ -185,7 +185,7 @@
                     <template v-if="booltargeta">
                     <div class="col-2"><q-input label="Codigo" v-model="codigo"  @keyup="consultartargeta"/></div>
 <!--                    <div class="col-2 flex flex-center"><q-btn  icon="refresh" color="teal" size="xs" @click="consultartargeta" label="consultar"/></div>-->
-                    <div class="col-2"><q-banner >Saldo Saldo :{{nombresaldo.saldo}} -- {{nombresaldo.nombre}}</q-banner></div>
+                    <div class="col-4"><q-banner >Saldo Saldo :{{nombresaldo.saldo}} -- {{nombresaldo.nombre}}</q-banner></div>
 <!--                      <div class="col-2 flex flex-center"><q-btn  icon="code" color="accent" size="xs" @click="rebaja" label="Dar rebaja"/></div>-->
                     <div class="col-2"></div>
                     </template>
