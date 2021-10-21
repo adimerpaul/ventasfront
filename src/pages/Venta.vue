@@ -270,6 +270,8 @@ export default {
       if (this.codigo!='' || this.codigo!=undefined){
         this.$q.loading.show()
         this.nombresaldo={}
+        
+        this.codigo=this.codigo.replace(' ','');
         if (this.tienerebaja){
           this.$store.state.products.forEach(r=>{
             r.precio=(1.25*r.precio).toFixed(2)
