@@ -184,7 +184,7 @@
                   </div>
                   <div>
                     <q-btn  label=" venta" icon="send" type="submit" color="positive" :disable="btn"/>
-                    <q-btn label="Cerrar" type="button" size="md" icon="delete" color="negative" class="q-ml-sm" @click="icon=false" />
+                    <q-btn label="Cerrar" type="button" size="md" icon="delete" color="negative" class="q-ml-sm" @click="icon=false;tienerebaja=false" />
                   </div>
                 </q-form>
                 <div class="col-2"><q-checkbox @input="verificar" v-model="booltargeta"  label="Targeta"/></div>
@@ -270,7 +270,7 @@ export default {
       if (this.codigo!='' || this.codigo!=undefined){
         this.$q.loading.show()
         this.nombresaldo={}
-        
+
         this.codigo=this.codigo.replaceAll(' ','');
         if (this.tienerebaja){
           this.$store.state.products.forEach(r=>{
@@ -458,9 +458,11 @@ export default {
         delivery:this.delivery,
         details:this.$store.state.products,
         fecha:this.fecha,
-        codigo:this.codigo
+        codigo:this.codigo,
+        tarjeta:this.tienerebaja?'SI':'NO'
       }).then(res=>{
         this.booltargeta=false
+        this.tienerebaja=false
         this.codigo=''
         this.btn=false
         this.icon=false
