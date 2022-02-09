@@ -187,6 +187,7 @@
                     <q-btn label="Cerrar" type="button" size="md" icon="delete" color="negative" class="q-ml-sm" @click="icon=false;tienerebaja=false" />
                   </div>
                 </q-form>
+                <div class="col-2"><q-checkbox v-model="boolcredito"  label="T Credito"/></div>
                 <div class="col-2"><q-checkbox @input="verificar" v-model="booltargeta"  label="Targeta"/></div>
                     <template v-if="booltargeta">
                     <div class="row">
@@ -221,6 +222,7 @@ export default {
       codigo:'',
       nombresaldo:{},
       booltargeta:false,
+      boolcredito:false,
       products:[],
       url:process.env.URL,
       icon:false,
@@ -459,9 +461,11 @@ export default {
         details:this.$store.state.products,
         fecha:this.fecha,
         codigo:this.codigo,
-        tarjeta:this.tienerebaja?'SI':'NO'
+        tarjeta:this.tienerebaja?'SI':'NO',
+        credito:this.boolcredito?'SI':'NO'
       }).then(res=>{
         this.booltargeta=false
+        this.boolcredito=false
         this.tienerebaja=false
         this.codigo=''
         this.btn=false
