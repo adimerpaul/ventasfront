@@ -405,7 +405,7 @@ export default {
         setTimeout(function(){
           myWindow.print();
           myWindow.close();
-          mc.comanda2(sale_id);
+          //mc.comanda2(sale_id);
           //    impAniv(response);
         },500);
       })
