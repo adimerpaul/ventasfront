@@ -183,7 +183,7 @@
                     </div>
                   </div>
                   <div>
-                    <q-btn  label=" venta" icon="send" type="submit" color="positive" :disable="btn"/>
+                    <q-btn  label=" venta" icon="send" type="submit" color="positive" :disable="btn" :loading="loading"/>
                     <q-btn label="Cerrar" type="button" size="md" icon="delete" color="negative" class="q-ml-sm" @click="icon=false;tienerebaja=false" />
                   </div>
                 </q-form>
@@ -216,6 +216,7 @@ export default {
   name: "Venta",
   data(){
     return {
+      loading:false,
       btn:false,
       tienerebaja:false,
       rubros:[],
@@ -425,6 +426,7 @@ export default {
       })
     },
     onsubmit(){
+      this.loading=true
       this.btn=true;
       // console.log('a');
       this.$q.loading.show()
@@ -438,6 +440,7 @@ export default {
         })
         this.$q.loading.hide()
         this.btn=false
+        this.loading=false
         return false;
       }
       if (this.total=='' || this.total==null|| parseFloat(this.total)==0){
@@ -449,6 +452,7 @@ export default {
         })
         this.$q.loading.hide()
         this.btn=false
+        this.loading=false
         return false;
       }
 
@@ -471,6 +475,7 @@ export default {
         this.btn=false
         this.icon=false
         this.$store.state.products=[]
+        this.loading=false
         console.log(res.data);
         // this.misrubros();
         this.products=[]
@@ -549,6 +554,7 @@ export default {
         this.btn=false
         this.$q.loading.hide()
         //   this.alert=false;
+        this.loading=false
             this.$q.notify({
               color: 'red-5',
               textColor: 'white',
